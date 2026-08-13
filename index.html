@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#070A14" />
+<meta name="description" content="SalaryFlow — track your salary, spending and daily safe-spend limit until your next payday." />
+<title>SalaryFlow — Salary Expense Tracker</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ======================= APP ROOT ======================= -->
+<div id="app">
+
+  <!-- ================= FIRST-LAUNCH SETUP ================= -->
+  <section id="screen-setup" class="screen" hidden>
+    <div class="setup-wrap">
+      <div class="setup-badge" aria-hidden="true">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M3 12c0-1 .5-2 2-2h14c1.5 0 2 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 10 12 4l9 6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="15" r="2" fill="currentColor"/></svg>
+      </div>
+      <h1 class="setup-title">Welcome to SalaryFlow</h1>
+      <p class="setup-sub">Tell us about your salary and we'll show you exactly how much you can safely spend, every single day.</p>
+
+      <form id="form-setup" class="setup-form" novalidate>
+        <label class="field">
+          <span class="field-label">Salary amount</span>
+          <div class="field-money">
+            <span id="setup-currency-symbol" class="field-money-symbol">₹</span>
+            <input type="number" id="input-salary" inputmode="decimal" min="0" step="0.01" placeholder="25000" required />
+          </div>
+          <span class="field-error" id="err-salary"></span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Salary received date</span>
+          <input type="date" id="input-salary-date" required />
+          <span class="field-error" id="err-salary-date"></span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Next salary date</span>
+          <input type="date" id="input-next-date" required />
+          <span class="field-error" id="err-next-date"></span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Currency</span>
+          <select id="input-currency" class="select"></select>
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Get started</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= MAIN APP SHELL ================= -->
+  <div id="screen-main" class="screen" hidden>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 17c3-6 6-2 9-8 1.6-3.2 4-4 7-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 5h5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="brand-name">SalaryFlow</span>
+        </div>
+        <button id="btn-theme-toggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg id="icon-theme" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+
+      <!-- ---------------- HOME / DASHBOARD ---------------- -->
+      <section id="view-home" class="view">
+
+        <div class="view-fade">
+          <p class="greeting" id="greeting-text">Good evening</p>
+          <p class="greeting-sub" id="greeting-sub-text">Here's where things stand today.</p>
+        </div>
+
+        <!-- Main balance card -->
+        <div class="card card-hero view-fade">
+          <div class="hero-top">
+            <span class="hero-label">Remaining balance</span>
+            <button class="chip chip-ghost" id="btn-edit-salary-quick">Edit salary</button>
+          </div>
+          <div class="hero-amount" id="hero-remaining">₹0</div>
+          <div class="hero-split">
+            <div class="hero-split-item">
+              <span class="dot dot-salary" aria-hidden="true"></span>
+              <span class="hero-split-label">Salary</span>
+              <span class="hero-split-value" id="hero-salary">₹0</span>
+            </div>
+            <div class="hero-split-item">
+              <span class="dot dot-spent" aria-hidden="true"></span>
+              <span class="hero-split-label">Spent</span>
+              <span class="hero-split-value" id="hero-spent">₹0</span>
+            </div>
+          </div>
+          <div class="hero-overspend" id="hero-overspend" hidden>
+            Your expenses have gone past this salary cycle's budget.
+          </div>
+        </div>
+
+        <!-- Daily safe spend — signature gauge -->
+        <div class="card card-gauge view-fade">
+          <div class="gauge-wrap">
+            <svg id="gauge-svg" viewBox="0 0 160 160" class="gauge-svg">
+              <circle cx="80" cy="80" r="68" class="gauge-track" />
+              <circle cx="80" cy="80" r="68" class="gauge-fill" id="gauge-fill" />
+            </svg>
+            <div class="gauge-center">
+              <span class="gauge-eyebrow">Today's safe spend</span>
+              <span class="gauge-amount" id="gauge-amount">₹0</span>
+              <span class="gauge-status" id="gauge-status">per day</span>
+            </div>
+          </div>
+          <p class="gauge-message" id="gauge-message"></p>
+        </div>
+
+        <!-- Days left + summary row -->
+        <div class="row-2 view-fade">
+          <div class="card card-compact">
+            <span class="compact-label">Days left</span>
+            <span class="compact-value" id="days-left-value">0</span>
+            <span class="compact-sub" id="days-left-sub">until next salary</span>
+          </div>
+          <div class="card card-compact">
+            <span class="compact-label">Spent so far</span>
+            <span class="compact-value" id="percent-spent-value">0%</span>
+            <span class="compact-sub" id="percent-spent-sub">of your salary</span>
+          </div>
+        </div>
+
+        <!-- Spending progress -->
+        <div class="card view-fade">
+          <div class="progress-head">
+            <span class="progress-title">Spending progress</span>
+            <span class="progress-percent" id="progress-percent">0%</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          </div>
+        </div>
+
+        <!-- Recent expenses -->
+        <div class="section-head view-fade">
+          <h2>Recent expenses</h2>
+          <button class="link-btn" data-nav="expenses">See all</button>
+        </div>
+        <div id="recent-expenses-list" class="expense-list view-fade"></div>
+        <div id="recent-empty" class="empty-state view-fade" hidden></div>
+
+      </section>
+
+      <!-- ---------------- EXPENSES ---------------- -->
+      <section id="view-expenses" class="view" hidden>
+        <div class="view-fade">
+          <h1 class="view-title">Expenses</h1>
+
+          <div class="search-row">
+            <div class="search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <input type="text" id="input-search" placeholder="Search category, note or amount" />
+            </div>
+            <select id="select-sort" class="select select-compact">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="highest">Highest amount</option>
+              <option value="lowest">Lowest amount</option>
+            </select>
+          </div>
+
+          <div class="filter-row" id="filter-row">
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="today">Today</button>
+            <button class="filter-chip" data-filter="week">This week</button>
+            <button class="filter-chip" data-filter="month">This month</button>
+            <select id="select-category-filter" class="select select-compact filter-chip-select">
+              <option value="">Category</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="all-expenses-list" class="expense-list view-fade"></div>
+        <div id="all-empty" class="empty-state view-fade" hidden></div>
+      </section>
+
+      <!-- ---------------- REPORTS ---------------- -->
+      <section id="view-reports" class="view" hidden>
+        <div class="view-fade">
+          <h1 class="view-title">Reports</h1>
+
+          <div class="row-2">
+            <div class="card card-compact">
+              <span class="compact-label">Total spending</span>
+              <span class="compact-value" id="rep-total">₹0</span>
+              <span class="compact-sub">this cycle</span>
+            </div>
+            <div class="card card-compact">
+              <span class="compact-label">Avg. daily spend</span>
+              <span class="compact-value" id="rep-avg">₹0</span>
+              <span class="compact-sub" id="rep-avg-sub">per day so far</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <span class="progress-title">Top category</span>
+            <div id="rep-top-category" class="top-category"></div>
+          </div>
+
+          <div class="section-head">
+            <h2>Spending by category</h2>
+          </div>
+          <div class="card" id="rep-category-breakdown"></div>
+
+          <div class="section-head">
+            <h2>Salary cycle</h2>
+          </div>
+          <div class="card" id="rep-cycle"></div>
+        </div>
+      </section>
+
+      <!-- ---------------- SETTINGS ---------------- -->
+      <section id="view-settings" class="view" hidden>
+        <div class="view-fade">
+          <h1 class="view-title">Settings</h1>
+
+          <h3 class="settings-heading">General</h3>
+          <div class="card settings-card">
+            <div class="settings-row">
+              <span>Currency</span>
+              <select id="settings-currency" class="select select-compact"></select>
+            </div>
+            <div class="settings-row">
+              <span>Theme</span>
+              <div class="segmented" id="settings-theme-segmented">
+                <button data-theme="light" class="seg-btn">Light</button>
+                <button data-theme="dark" class="seg-btn">Dark</button>
+                <button data-theme="system" class="seg-btn">Auto</button>
+              </div>
+            </div>
+            <div class="settings-row">
+              <span>Date format</span>
+              <select id="settings-date-format" class="select select-compact">
+                <option value="d-mmm">1 Aug</option>
+                <option value="dd-mm-yyyy">01-08-2026</option>
+                <option value="mm-dd-yyyy">08-01-2026</option>
+              </select>
+            </div>
+          </div>
+
+          <h3 class="settings-heading">Salary</h3>
+          <div class="card settings-card">
+            <div class="settings-row">
+              <span>Salary amount</span>
+              <input type="number" id="settings-salary" class="settings-input" min="0" step="0.01" />
+            </div>
+            <div class="settings-row">
+              <span>Salary date</span>
+              <input type="date" id="settings-salary-date" class="settings-input" />
+            </div>
+            <div class="settings-row">
+              <span>Next salary date</span>
+              <input type="date" id="settings-next-date" class="settings-input" />
+            </div>
+            <button id="btn-save-salary" class="btn btn-primary btn-block">Save salary details</button>
+          </div>
+
+          <h3 class="settings-heading">Categories</h3>
+          <div class="card settings-card">
+            <div id="category-manage-list" class="category-manage-list"></div>
+            <div class="add-category-row">
+              <input type="text" id="input-new-category" placeholder="New category name" />
+              <button id="btn-add-category" class="btn btn-secondary">Add</button>
+            </div>
+          </div>
+
+          <h3 class="settings-heading">Data</h3>
+          <div class="card settings-card">
+            <button id="btn-export" class="btn btn-secondary btn-block">Export data</button>
+            <label class="btn btn-secondary btn-block file-btn">
+              Import data
+              <input type="file" id="input-import" accept="application/json" hidden />
+            </label>
+            <button id="btn-clear-data" class="btn btn-danger btn-block">Clear all data</button>
+          </div>
+
+          <h3 class="settings-heading">About</h3>
+          <div class="card settings-card">
+            <p class="about-line"><strong>SalaryFlow</strong> — Salary Expense Tracker</p>
+            <p class="about-line">Version 1.0.0</p>
+            <p class="about-line about-desc">A private, offline salary-cycle expense tracker. Your data never leaves this device.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Floating add button -->
+    <button id="btn-fab" class="fab" aria-label="Add expense">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+    </button>
+
+    <!-- Bottom navigation -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <button class="nav-item active" data-nav="home">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 11.5 12 4l8 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" data-nav="expenses">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>Expenses</span>
+      </button>
+      <button class="nav-item" data-nav="reports">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 19V10M12 19V5M19 19v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>Reports</span>
+      </button>
+      <button class="nav-item" data-nav="settings">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .34 1.87l.06.06a2.06 2.06 0 1 1-2.91 2.91l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V19.6a2.06 2.06 0 1 1-4.12 0v-.09a1.7 1.7 0 0 0-1.11-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2.06 2.06 0 1 1-2.91-2.91l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H4.4a2.06 2.06 0 1 1 0-4.12h.09a1.7 1.7 0 0 0 1.55-1.11 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2.06 2.06 0 1 1 2.91-2.91l.06.06a1.7 1.7 0 0 0 1.87.34H10.5a1.7 1.7 0 0 0 1-1.55V4.4a2.06 2.06 0 1 1 4.12 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2.06 2.06 0 1 1 2.91 2.91l-.06.06a1.7 1.7 0 0 0-.34 1.87v.09a1.7 1.7 0 0 0 1.55 1H19.6a2.06 2.06 0 1 1 0 4.12h-.09a1.7 1.7 0 0 0-1.55 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+  </div>
+</div>
+
+<!-- ================= EXPENSE MODAL (sheet) ================= -->
+<div id="modal-expense" class="modal-overlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="expense-modal-title">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <h2 id="expense-modal-title">Add expense</h2>
+      <button class="icon-btn" id="btn-close-expense-modal" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <form id="form-expense" class="sheet-form" novalidate>
+      <input type="hidden" id="expense-id" />
+      <label class="field">
+        <span class="field-label">Amount</span>
+        <div class="field-money">
+          <span id="expense-currency-symbol" class="field-money-symbol">₹</span>
+          <input type="number" id="expense-amount" inputmode="decimal" min="0.01" step="0.01" placeholder="0.00" required />
+        </div>
+        <span class="field-error" id="err-expense-amount"></span>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Category</span>
+        <select id="expense-category" class="select" required></select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Date</span>
+        <input type="date" id="expense-date" required />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Note <span class="field-optional">(optional)</span></span>
+        <input type="text" id="expense-note" placeholder="e.g. Bought groceries" maxlength="120" />
+      </label>
+
+      <div class="field">
+        <span class="field-label">Expense photo <span class="field-optional">(optional)</span></span>
+        <label class="photo-upload" for="expense-photo">
+          <input type="file" id="expense-photo" accept="image/jpeg,image/png,image/webp" capture="environment" hidden />
+          <span class="photo-upload-icon" aria-hidden="true">📷</span>
+          <span class="photo-upload-copy">
+            <strong>Add receipt or expense photo</strong>
+            <small>JPG, PNG or WebP • stored privately on this device</small>
+          </span>
+          <span class="photo-upload-arrow" aria-hidden="true">›</span>
+        </label>
+        <div id="expense-photo-preview" class="photo-preview" hidden>
+          <img id="expense-photo-preview-img" alt="Expense photo preview" />
+          <div class="photo-preview-info">
+            <strong id="expense-photo-name">Photo attached</strong>
+            <span>Tap remove to delete the attached photo.</span>
+          </div>
+          <button type="button" id="btn-remove-expense-photo" class="photo-remove" aria-label="Remove expense photo">Remove</button>
+        </div>
+      </div>
+
+      <div class="sheet-actions">
+        <button type="button" id="btn-cancel-expense" class="btn btn-secondary btn-block">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-block">Save expense</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= CONFIRM DIALOG ================= -->
+<div id="modal-confirm" class="modal-overlay" hidden>
+  <div class="confirm-box" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+    <h3 id="confirm-title">Are you sure?</h3>
+    <p id="confirm-message"></p>
+    <div class="confirm-actions">
+      <button id="confirm-cancel" class="btn btn-secondary btn-block">Cancel</button>
+      <button id="confirm-ok" class="btn btn-danger btn-block">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TOAST CONTAINER ================= -->
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
