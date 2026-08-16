@@ -6,6 +6,114 @@
 <meta name="theme-color" content="#070A14" />
 <meta name="description" content="SalaryFlow — track your salary, spending and daily safe-spend limit until your next payday." />
 <title>SalaryFlow — Salary Expense Tracker</title>
+
+<!-- ====================================================================
+     PREMIUM STARTUP SPLASH — critical, inline CSS.
+     Inlined (not in style.css) on purpose: it must render on the very
+     first frame, before style.css / fonts finish loading, so there is
+     never a white flash. Pure CSS animation, no dependencies, no
+     external assets besides the app's own existing icon.
+     ==================================================================== -->
+<style>
+  /* Lock the page background before anything else can paint */
+  html, body { background: #070A14; }
+
+  #app-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(circle at 50% 38%, rgba(139,92,246,.20), transparent 55%),
+      radial-gradient(circle at 15% -10%, rgba(91,108,255,.16), transparent 32%),
+      radial-gradient(circle at 95% 12%, rgba(139,92,246,.12), transparent 28%),
+      #070A14;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    opacity: 0;
+    animation: splashBgIn .35s ease-out forwards;
+    transition: opacity .4s ease, visibility .4s ease;
+  }
+  #app-splash.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  #app-splash .splash-glow {
+    position: absolute;
+    width: min(60vw, 320px);
+    height: min(60vw, 320px);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,92,246,.35), rgba(91,108,255,.12) 45%, transparent 72%);
+    filter: blur(6px);
+    opacity: 0;
+    animation: splashGlowIn 1.6s ease-out .1s forwards;
+  }
+
+  #app-splash .splash-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 24px;
+  }
+
+  #app-splash .splash-logo {
+    width: 104px;
+    height: 104px;
+    border-radius: 26px;
+    box-shadow: 0 18px 50px rgba(91,108,255,.35), 0 0 0 1px rgba(255,255,255,.06);
+    opacity: 0;
+    transform: scale(.9);
+    animation: splashLogoIn .55s cubic-bezier(.22,.61,.36,1) .15s forwards;
+  }
+
+  #app-splash .splash-title {
+    margin: 22px 0 0;
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: splashTextIn .5s ease-out .38s forwards;
+  }
+  #app-splash .splash-title .t-white { color: #F5F7FF; }
+  #app-splash .splash-title .t-accent { color: #A78BFA; }
+
+  #app-splash .splash-subtitle {
+    margin: 8px 0 0;
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #AAB3C9;
+    opacity: 0;
+    animation: splashSubIn .5s ease-out .58s forwards;
+  }
+
+  @keyframes splashBgIn   { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes splashGlowIn { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
+  @keyframes splashLogoIn { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+  @keyframes splashTextIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes splashSubIn  { from { opacity: 0; } to { opacity: .72; } }
+
+  /* Respect reduced-motion: simple fade only, no movement/scaling */
+  @media (prefers-reduced-motion: reduce) {
+    #app-splash, #app-splash .splash-glow, #app-splash .splash-logo,
+    #app-splash .splash-title, #app-splash .splash-subtitle {
+      animation-duration: .01s !important;
+      animation-delay: 0s !important;
+      transform: none !important;
+    }
+    #app-splash .splash-subtitle { opacity: .72; }
+  }
+</style>
+
 <link rel="manifest" href="manifest.json" />
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
@@ -15,6 +123,17 @@
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+<script>window.__splashStart = Date.now();</script>
+
+<!-- ================= PREMIUM STARTUP SPLASH ================= -->
+<div id="app-splash" aria-hidden="true">
+  <div class="splash-glow"></div>
+  <div class="splash-content">
+    <img class="splash-logo" src="icon-192.png" width="104" height="104" alt="" />
+    <h1 class="splash-title"><span class="t-white">Salary</span><span class="t-accent">Flow</span></h1>
+    <p class="splash-subtitle">Smart Money Management</p>
+  </div>
+</div>
 
 <!-- ======================= APP ROOT ======================= -->
 <div id="app">
@@ -415,5 +534,43 @@
 <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
 <script src="app.js"></script>
+
+<!-- ================= SPLASH TEARDOWN =================
+     Registered AFTER app.js on purpose: both scripts listen for
+     DOMContentLoaded on the same element, and same-event listeners
+     fire in registration order, so this always runs after boot()
+     has already shown the correct screen (setup or dashboard).
+     This does not touch app.js, app state, or storage in any way. -->
+<script>
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var splash = document.getElementById("app-splash");
+    if (!splash) return;
+
+    var reduceMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Let the branded animation play out naturally; if the app was
+    // somehow slower to boot than this, we don't add any extra wait —
+    // boot() already finished by the time this listener runs.
+    var minVisible = reduceMotion ? 250 : 1300;
+    var elapsed = Date.now() - (window.__splashStart || Date.now());
+    var remaining = Math.max(minVisible - elapsed, 0);
+
+    window.setTimeout(function () {
+      splash.classList.add("is-hidden");
+      var removed = false;
+      var remove = function () {
+        if (removed) return;
+        removed = true;
+        if (splash.parentNode) splash.parentNode.removeChild(splash);
+      };
+      splash.addEventListener("transitionend", remove, { once: true });
+      // Fallback in case transitionend doesn't fire on some WebViews.
+      window.setTimeout(remove, 500);
+    }, remaining);
+  });
+})();
+</script>
 </body>
 </html>
