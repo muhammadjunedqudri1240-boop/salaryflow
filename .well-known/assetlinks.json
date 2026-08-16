@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.muhammadjunedqudri1240_boop.twa",
+      "sha256_cert_fingerprints": [
+        "E5:9F:09:73:E8:DD:08:37:61:96:7D:1D:17:86:8F:C1:25:6F:05:20:45:02:8E:4B:7E:1E:33:25:A2:1B:0A:88"
+      ]
+    }
+  }
+]
