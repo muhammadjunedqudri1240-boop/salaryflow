@@ -6,9 +6,10 @@
     "target": {
       "namespace": "android_app",
       "package_name": "io.github.muhammadjunedqudri1240_boop.twa",
-      "sha256_cert_fingerprints": [
-        "E5:9F:09:73:E8:DD:08:37:61:96:7D:1D:17:86:8F:C1:25:6F:05:20:45:02:8E:4B:7E:1E:33:25:A2:1B:0A:88"
-      ]
+    "sha256_cert_fingerprints": [
+  "E5:9F:09:73:E8:DD:08:37:61:96:7D:1D:17:86:8F:C1:25:6F:05:20:45:02:8E:4B:7E:1E:33:25:A2:1B:0A:88",
+  "B9:58:CD:24:8B:4E:AD:2E:90:2F:2D:F4:6A:AB:18:E1:A4:80:41:72:F3:9A:F2:AC:CA:E3:23:6C:24:9B:0B:BF"
+]
     }
   }
 ]
