@@ -7,8 +7,8 @@
 <meta name="description" content="SalaryFlow — track your salary, spending and daily safe-spend limit until your next payday." />
 <title>SalaryFlow — Salary Expense Tracker</title>
 <link rel="manifest" href="manifest.json" />
-<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -279,6 +279,8 @@
               <div class="premium-setting-row"><span class="premium-setting-icon cyan">₹</span><div class="premium-setting-copy"><strong>Currency</strong><small>Choose how money is displayed</small></div><select id="settings-currency" class="select select-compact premium-select"></select></div>
               <div class="premium-setting-divider"></div>
               <div class="premium-setting-row"><span class="premium-setting-icon blue">▣</span><div class="premium-setting-copy"><strong>Date format</strong><small>Choose your preferred date style</small></div><select id="settings-date-format" class="select select-compact premium-select"><option value="d-mmm">1 Aug</option><option value="dd-mm-yyyy">01-08-2026</option><option value="mm-dd-yyyy">08-01-2026</option></select></div>
+              <div class="premium-setting-divider"></div>
+              <div class="premium-setting-row"><span class="premium-setting-icon green">♪</span><div class="premium-setting-copy"><strong>Background music</strong><small>Soft ambient music while you use SalaryFlow</small></div><button id="settings-music-toggle" class="music-setting-toggle" type="button" aria-pressed="false">Off</button></div>
             </div>
           </section>
 
@@ -485,5 +487,6 @@
 <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
 <script src="app.js"></script>
+<audio id="bg-music" preload="auto" loop aria-hidden="true"><source src="background-music.wav" type="audio/wav" /></audio>
 </body>
 </html>

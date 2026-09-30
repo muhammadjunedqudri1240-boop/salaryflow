@@ -956,14 +956,6 @@
       persist();
       renderAll();
     });
-    document.querySelectorAll("#settings-theme-segmented .seg-btn").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        state.settings.theme = btn.getAttribute("data-theme");
-        persist();
-        applyTheme();
-      });
-    });
-
     document.getElementById("btn-save-salary").addEventListener("click", function () {
       var amount = parseFloat(document.getElementById("settings-salary").value);
       var startDate = document.getElementById("settings-salary-date").value;
@@ -1531,6 +1523,50 @@
     renderHome();
   }
 
+
+  /* -------------------------- Background music --------------------------- */
+
+  var musicState = { enabled: true, started: false };
+
+  function setMusicUI() {
+    var on = !!musicState.enabled;
+    var btn = document.getElementById("btn-music");
+    var setting = document.getElementById("settings-music-toggle");
+    if (btn) { btn.setAttribute("aria-pressed", String(on)); btn.classList.toggle("is-on", on); }
+    if (setting) { setting.setAttribute("aria-pressed", String(on)); setting.textContent = on ? "On" : "Off"; setting.classList.toggle("is-on", on); }
+  }
+
+  function tryStartMusic() {
+    if (!musicState.enabled) return;
+    var audio = document.getElementById("bg-music");
+    if (!audio) return;
+    audio.volume = 0.11;
+    var p = audio.play();
+    if (p && p.catch) p.catch(function () {});
+    musicState.started = true;
+  }
+
+  function toggleMusic() {
+    musicState.enabled = !musicState.enabled;
+    try { localStorage.setItem("salaryflow_music", musicState.enabled ? "on" : "off"); } catch (e) {}
+    var audio = document.getElementById("bg-music");
+    if (musicState.enabled) { tryStartMusic(); toast("Background music on"); }
+    else if (audio) { audio.pause(); audio.currentTime = 0; toast("Background music off"); }
+    setMusicUI();
+  }
+
+  function initBackgroundMusic() {
+    try { musicState.enabled = localStorage.getItem("salaryflow_music") !== "off"; } catch (e) {}
+    setMusicUI();
+    var btn = document.getElementById("btn-music");
+    var setting = document.getElementById("settings-music-toggle");
+    if (btn) btn.addEventListener("click", toggleMusic);
+    if (setting) setting.addEventListener("click", toggleMusic);
+    var once = function () { if (musicState.enabled) tryStartMusic(); document.removeEventListener("pointerdown", once); document.removeEventListener("touchstart", once); };
+    document.addEventListener("pointerdown", once, { passive: true });
+    document.addEventListener("touchstart", once, { passive: true });
+  }
+
   /* ------------------------------------ Init --------------------------------------- */
 
   function initNav() {
@@ -1592,6 +1628,7 @@
     initSettingsEvents();
     initConfirmModal();
     initThemeToggle();
+    initBackgroundMusic();
     initQuickEditSalary();
 
     if (state.onboarded) {
