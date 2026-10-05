@@ -9,10 +9,7 @@ var APP_SHELL = [
   "./index.html",
   "./style.css",
   "./app.js",
-  "./manifest.json",
-  "./assets/icons/icon-192.png",
-  "./assets/icons/icon-512.png",
-  "./assets/icons/apple-touch-icon.png"
+  "./manifest.json"
 ];
 
 self.addEventListener("install", function (event) {
