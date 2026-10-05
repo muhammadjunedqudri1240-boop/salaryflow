@@ -591,18 +591,23 @@
 
   function expenseProductCard(e, withActions) {
     var cat = categoryById(e.category);
+    var title = e.note ? escapeHTML(e.note) : 'Expense';
     return (
       '<article class="expense-item expense-product-card" data-id="' + e.id + '">' +
         expensePhotoMarkup(e) +
         '<div class="expense-product-body">' +
           '<div class="expense-product-top">' +
-            '<div class="expense-product-category">' +
-              '<span class="expense-icon" style="background:' + cat.color + '22;color:' + cat.color + '">' + cat.icon + '</span>' +
-              '<div><div class="expense-cat">' + escapeHTML(cat.name) + '</div><div class="expense-date">' + formatDateFriendly(e.date) + '</div></div>' +
+            '<div class="expense-product-copy">' +
+              '<div class="expense-cat" style="background:' + cat.color + '22;color:' + cat.color + ';border-color:' + cat.color + '55">' + escapeHTML(cat.name) + '</div>' +
+              '<div class="expense-name">' + title + '</div>' +
+              '<div class="expense-amount">-' + formatMoney(e.amount) + '</div>' +
+              '<div class="expense-date"><span class="date-icon" aria-hidden="true">▣</span>' + formatDateFriendly(e.date) + '</div>' +
             '</div>' +
-            '<div class="expense-amount">-' + formatMoney(e.amount) + '</div>' +
+            (withActions ? '<div class="expense-card-actions">' +
+              '<button type="button" class="edit-action icon-action" data-id="' + e.id + '" aria-label="Edit expense">✎</button>' +
+              '<button type="button" class="menu-action icon-action" data-id="' + e.id + '" aria-label="More expense actions" aria-expanded="false">⋮</button>' +
+            '</div>' : '') +
           '</div>' +
-          (e.note ? '<div class="expense-detail"><span class="detail-label">Details</span><span class="detail-value">' + escapeHTML(e.note) + '</span></div>' : '') +
           (withActions ? expenseActionMarkup(e) : '') +
         '</div>' +
       '</article>'
@@ -703,6 +708,14 @@
         showConfirm("Delete this expense?", "This will permanently remove this expense from your records.", function () {
           deleteExpense(id);
         }, { okLabel: "Delete" });
+      });
+    });
+    container.querySelectorAll(".menu-action").forEach(function (btn) {
+      btn.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        var card = btn.closest(".expense-item");
+        var open = card.classList.toggle("actions-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
       });
     });
     container.querySelectorAll(".expense-item").forEach(function (item) {
