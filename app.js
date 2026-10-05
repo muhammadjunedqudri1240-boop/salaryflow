@@ -351,7 +351,7 @@
     }
     document.documentElement.setAttribute("data-theme", effective);
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", effective === "dark" ? "#10151C" : "#0F8B8D");
+    if (meta) meta.setAttribute("content", effective === "dark" ? "#10151C" : "#F5FAF8");
     updateSegmented();
   }
 
