@@ -21,41 +21,82 @@
   <!-- ================= FIRST-LAUNCH SETUP ================= -->
   <section id="screen-setup" class="screen" hidden>
     <div class="setup-wrap">
-      <div class="setup-badge" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M3 12c0-1 .5-2 2-2h14c1.5 0 2 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 10 12 4l9 6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="15" r="2" fill="currentColor"/></svg>
+      <div class="setup-brand">
+        <div class="setup-badge" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 8.5h13.5A2.5 2.5 0 0 1 20 11v7a2 2 0 0 1-2 2H5.5A2.5 2.5 0 0 1 3 17.5v-9A2.5 2.5 0 0 1 5.5 6H18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M3 9h15.5" stroke="currentColor" stroke-width="1.7"/><circle cx="16" cy="14.5" r="1.2" fill="currentColor"/></svg>
+        </div>
+        <div><strong>SalaryFlow</strong><span>Plan · Track · Grow</span></div>
       </div>
-      <h1 class="setup-title">Welcome to SalaryFlow</h1>
-      <p class="setup-sub">Tell us about your salary and we'll show you exactly how much you can safely spend, every single day.</p>
+      <div class="setup-hero-copy">
+        <span class="setup-kicker">YOUR MONEY, YOUR PLAN</span>
+        <h1 class="setup-title">Welcome to <em>SalaryFlow</em></h1>
+        <p class="setup-sub">Tell us about your salary and we'll turn it into a simple daily spending plan.</p>
+      </div>
 
       <form id="form-setup" class="setup-form" novalidate>
-        <label class="field">
-          <span class="field-label">Salary amount</span>
-          <div class="field-money">
+        <label class="field premium-field">
+          <span class="field-label">Monthly salary</span>
+          <div class="field-money premium-control">
             <span id="setup-currency-symbol" class="field-money-symbol">₹</span>
-            <input type="number" id="input-salary" inputmode="decimal" min="0" step="0.01" placeholder="25000" required />
+            <input type="number" id="input-salary" inputmode="decimal" min="0" step="0.01" placeholder="50,000" required />
+            <span class="field-hint">per month</span>
           </div>
           <span class="field-error" id="err-salary"></span>
         </label>
 
-        <label class="field">
-          <span class="field-label">Salary received date</span>
-          <input type="date" id="input-salary-date" required />
+        <label class="field premium-field">
+          <span class="field-label">Salary received</span>
+          <button type="button" class="picker-control" id="btn-salary-date">
+            <span class="picker-icon calendar-icon">⌁</span><span><small>Received date</small><strong id="salary-date-display">—</strong></span><span class="picker-chevron">›</span>
+          </button>
+          <input type="date" id="input-salary-date" class="visually-hidden-input" required />
           <span class="field-error" id="err-salary-date"></span>
         </label>
 
-        <label class="field">
-          <span class="field-label">Next salary date</span>
-          <input type="date" id="input-next-date" required />
+        <label class="field premium-field">
+          <span class="field-label">Next salary</span>
+          <button type="button" class="picker-control" id="btn-next-date">
+            <span class="picker-icon calendar-icon">⌁</span><span><small>Next payday</small><strong id="next-date-display">—</strong></span><span class="picker-chevron">›</span>
+          </button>
+          <input type="date" id="input-next-date" class="visually-hidden-input" required />
           <span class="field-error" id="err-next-date"></span>
         </label>
 
-        <label class="field">
+        <label class="field premium-field">
           <span class="field-label">Currency</span>
-          <select id="input-currency" class="select"></select>
+          <button type="button" class="picker-control" id="btn-currency">
+            <span class="picker-icon currency-icon" id="setup-currency-icon">₹</span><span><small>Preferred currency</small><strong id="currency-display">INR (₹) — Indian Rupee</strong></span><span class="picker-chevron">›</span>
+          </button>
+          <select id="input-currency" class="visually-hidden-input"></select>
         </label>
 
-        <button type="submit" class="btn btn-primary btn-block btn-lg">Get started</button>
+        <button type="submit" class="btn btn-primary btn-block btn-lg setup-submit">Get started <span>→</span></button>
+        <p class="setup-privacy">⌕ &nbsp; Your data stays private on this device</p>
       </form>
+
+      <div id="date-picker-modal" class="setup-modal" hidden>
+        <div class="modal-backdrop" data-close-modal></div>
+        <div class="setup-sheet calendar-sheet" role="dialog" aria-modal="true">
+          <div class="sheet-grabber"></div>
+          <div class="sheet-head"><div><span class="sheet-eyebrow">SELECT DATE</span><h2 id="calendar-title">October 2026</h2></div><button type="button" class="sheet-close" data-close-modal>×</button></div>
+          <div class="calendar-nav"><button type="button" id="cal-prev">‹</button><strong id="calendar-month">October 2026</strong><button type="button" id="cal-next">›</button></div>
+          <div class="calendar-week"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+          <div id="calendar-grid" class="calendar-grid"></div>
+          <div class="selected-date-card"><span class="picker-icon">✓</span><span><small>Selected date</small><strong id="calendar-selected">—</strong></span></div>
+          <div class="sheet-actions"><button type="button" class="btn btn-secondary" data-close-modal>Cancel</button><button type="button" class="btn btn-primary" id="cal-confirm">Confirm date</button></div>
+        </div>
+      </div>
+
+      <div id="currency-modal" class="setup-modal" hidden>
+        <div class="modal-backdrop" data-close-modal></div>
+        <div class="setup-sheet currency-sheet" role="dialog" aria-modal="true">
+          <div class="sheet-grabber"></div>
+          <div class="sheet-head"><div><span class="sheet-eyebrow">PREFERRED CURRENCY</span><h2>Select currency</h2></div><button type="button" class="sheet-close" data-close-modal>×</button></div>
+          <div class="currency-search">⌕ <input id="currency-search" type="text" placeholder="Search currency..." /></div>
+          <div id="currency-options" class="currency-options"></div>
+          <button type="button" class="btn btn-primary btn-block" id="currency-confirm">Done <span>→</span></button>
+        </div>
+      </div>
     </div>
   </section>
 

@@ -403,20 +403,23 @@
   function initSetupScreen() {
     var today = todayISO();
     var next = toISODate(new Date(Date.now() + 30 * DAY_MS));
-    document.getElementById("input-salary-date").value = today;
-    document.getElementById("input-next-date").value = next;
+    var salaryDateInput = document.getElementById("input-salary-date");
+    var nextDateInput = document.getElementById("input-next-date");
+    salaryDateInput.value = today;
+    nextDateInput.value = next;
     populateCurrencySelect(document.getElementById("input-currency"), "INR");
-    document.getElementById("input-currency").addEventListener("change", function (e) {
-      document.getElementById("setup-currency-symbol").textContent = CURRENCIES[e.target.value].symbol;
-    });
+    updateSetupDateDisplays();
+    updateSetupCurrencyDisplay("INR");
+    initPremiumDatePicker();
+    initPremiumCurrencyPicker();
 
     document.getElementById("form-setup").addEventListener("submit", function (e) {
       e.preventDefault();
       clearSetupErrors();
 
       var salary = parseFloat(document.getElementById("input-salary").value);
-      var salaryDate = document.getElementById("input-salary-date").value;
-      var nextDate = document.getElementById("input-next-date").value;
+      var salaryDate = salaryDateInput.value;
+      var nextDate = nextDateInput.value;
       var currency = document.getElementById("input-currency").value;
 
       var hasError = false;
@@ -424,17 +427,10 @@
         setFieldError("err-salary", "Enter a salary amount greater than 0.");
         hasError = true;
       }
-      if (!salaryDate) {
-        setFieldError("err-salary-date", "Please pick your salary date.");
-        hasError = true;
-      }
-      if (!nextDate) {
-        setFieldError("err-next-date", "Please pick your next salary date.");
-        hasError = true;
-      }
+      if (!salaryDate) { setFieldError("err-salary-date", "Please pick your salary date."); hasError = true; }
+      if (!nextDate) { setFieldError("err-next-date", "Please pick your next salary date."); hasError = true; }
       if (salaryDate && nextDate && parseISODate(nextDate) <= parseISODate(salaryDate)) {
-        setFieldError("err-next-date", "Next salary date must be after the salary date.");
-        hasError = true;
+        setFieldError("err-next-date", "Next salary date must be after the salary date."); hasError = true;
       }
       if (hasError) return;
 
@@ -444,11 +440,104 @@
       state.settings.currency = currency;
       state.onboarded = true;
       persist();
-
       toast("Welcome! Your salary cycle is set up.");
       showMainApp();
     });
   }
+
+  var setupPickerTarget = "salary";
+  var setupCalendarCursor = new Date();
+  var setupPendingDate = null;
+  var setupPendingCurrency = "INR";
+
+  function displaySetupDate(iso) {
+    var d = parseISODate(iso);
+    if (!d) return "—";
+    return d.toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
+  }
+
+  function updateSetupDateDisplays() {
+    document.getElementById("salary-date-display").textContent = displaySetupDate(document.getElementById("input-salary-date").value);
+    document.getElementById("next-date-display").textContent = displaySetupDate(document.getElementById("input-next-date").value);
+  }
+
+  function updateSetupCurrencyDisplay(code) {
+    var c = CURRENCIES[code] || CURRENCIES.INR;
+    document.getElementById("setup-currency-symbol").textContent = c.symbol;
+    document.getElementById("setup-currency-icon").textContent = c.symbol;
+    document.getElementById("currency-display").textContent = code + " (" + c.symbol + ") — " + c.name;
+  }
+
+  function openSetupModal(id) { document.getElementById(id).hidden = false; document.body.classList.add("modal-open"); }
+  function closeSetupModals() { document.querySelectorAll(".setup-modal").forEach(function(m){m.hidden=true;}); document.body.classList.remove("modal-open"); }
+
+  function initPremiumDatePicker() {
+    document.getElementById("btn-salary-date").addEventListener("click", function(){ openDatePicker("salary"); });
+    document.getElementById("btn-next-date").addEventListener("click", function(){ openDatePicker("next"); });
+    document.getElementById("cal-prev").addEventListener("click", function(){ setupCalendarCursor.setMonth(setupCalendarCursor.getMonth()-1); renderSetupCalendar(); });
+    document.getElementById("cal-next").addEventListener("click", function(){ setupCalendarCursor.setMonth(setupCalendarCursor.getMonth()+1); renderSetupCalendar(); });
+    document.getElementById("cal-confirm").addEventListener("click", function(){
+      if (!setupPendingDate) return;
+      document.getElementById(setupPickerTarget === "salary" ? "input-salary-date" : "input-next-date").value = setupPendingDate;
+      updateSetupDateDisplays();
+      closeSetupModals();
+    });
+  }
+
+  function openDatePicker(target) {
+    setupPickerTarget = target;
+    var current = document.getElementById(target === "salary" ? "input-salary-date" : "input-next-date").value || todayISO();
+    setupPendingDate = current;
+    setupCalendarCursor = parseISODate(current) || new Date();
+    renderSetupCalendar();
+    openSetupModal("date-picker-modal");
+  }
+
+  function renderSetupCalendar() {
+    var y = setupCalendarCursor.getFullYear(), m = setupCalendarCursor.getMonth();
+    var title = setupCalendarCursor.toLocaleDateString(undefined, {month:"long", year:"numeric"});
+    document.getElementById("calendar-title").textContent = title;
+    document.getElementById("calendar-month").textContent = title;
+    document.getElementById("calendar-selected").textContent = displaySetupDate(setupPendingDate);
+    var grid = document.getElementById("calendar-grid"); grid.innerHTML = "";
+    var first = new Date(y,m,1).getDay();
+    var days = new Date(y,m+1,0).getDate();
+    for(var i=0;i<first;i++){ var blank=document.createElement("span"); blank.className="calendar-day muted"; grid.appendChild(blank); }
+    for(var day=1;day<=days;day++){
+      var b=document.createElement("button"); b.type="button"; b.className="calendar-day"; b.textContent=day;
+      var iso=toISODate(new Date(y,m,day));
+      if(iso===todayISO()) b.classList.add("today");
+      if(iso===setupPendingDate) b.classList.add("selected");
+      b.addEventListener("click", (function(date){ return function(){ setupPendingDate=date; renderSetupCalendar(); }; })(iso));
+      grid.appendChild(b);
+    }
+  }
+
+  function initPremiumCurrencyPicker() {
+    document.getElementById("btn-currency").addEventListener("click", function(){
+      setupPendingCurrency = document.getElementById("input-currency").value || "INR";
+      document.getElementById("currency-search").value = "";
+      renderCurrencyOptions(); openSetupModal("currency-modal");
+    });
+    document.getElementById("currency-search").addEventListener("input", renderCurrencyOptions);
+    document.getElementById("currency-confirm").addEventListener("click", function(){
+      document.getElementById("input-currency").value = setupPendingCurrency;
+      updateSetupCurrencyDisplay(setupPendingCurrency);
+      closeSetupModals();
+    });
+  }
+
+  function renderCurrencyOptions() {
+    var q=(document.getElementById("currency-search").value||"").toLowerCase().trim();
+    var wrap=document.getElementById("currency-options"); wrap.innerHTML="";
+    Object.keys(CURRENCIES).filter(function(code){ var c=CURRENCIES[code]; return !q || code.toLowerCase().includes(q) || c.name.toLowerCase().includes(q); }).forEach(function(code){
+      var c=CURRENCIES[code], b=document.createElement("button"); b.type="button"; b.className="currency-option"+(code===setupPendingCurrency?" active":"");
+      b.innerHTML='<span class="currency-flag">'+escapeHTML(c.symbol)+'</span><span><strong>'+escapeHTML(code+' ('+c.symbol+')')+'</strong><small>'+escapeHTML(c.name)+'</small></span><span class="currency-radio"></span>';
+      b.addEventListener("click",function(){setupPendingCurrency=code;renderCurrencyOptions();}); wrap.appendChild(b);
+    });
+  }
+
+  document.addEventListener("click", function(e){ if(e.target.closest("[data-close-modal]")) closeSetupModals(); });
 
   function clearSetupErrors() {
     ["err-salary", "err-salary-date", "err-next-date"].forEach(function (id) {
