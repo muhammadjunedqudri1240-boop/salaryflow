@@ -572,43 +572,38 @@
   }
 
   function expensePhotoMarkup(e) {
-    if (!e.photo) return '<div class="expense-photo-placeholder"><span>' + escapeHTML(categoryById(e.category).icon) + '</span><small>No photo</small></div>';
+    if (!e.photo) return '<div class="expense-photo-placeholder"><span>' + escapeHTML(categoryById(e.category).icon) + '</span></div>';
     return '<div class="expense-photo-large" title="Expense photo"><img src="' + escapeHTML(e.photo) + '" alt="Attached expense photo" loading="lazy" /></div>';
   }
 
   function expenseActionMarkup(e) {
     return (
       '<div class="expense-actions" role="group" aria-label="Expense actions">' +
-        '<button type="button" class="edit-action" data-id="' + e.id + '" aria-label="Edit expense">' +
-          '<span class="action-icon" aria-hidden="true">✎</span><span>Edit</span>' +
-        '</button>' +
-        '<button type="button" class="danger-action" data-id="' + e.id + '" aria-label="Delete expense">' +
-          '<span class="action-icon" aria-hidden="true">🗑</span><span>Delete</span>' +
-        '</button>' +
+        '<button type="button" class="edit-action" data-id="' + e.id + '" aria-label="Edit expense"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.2-1 10.1-10.1a2 2 0 0 0-2.8-2.8L5.4 16.2 4 20Z"/><path d="m14.5 7.5 2 2"/></svg></button>' +
+        '<button type="button" class="danger-action" data-id="' + e.id + '" aria-label="Delete expense"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M9 7V4h6v3m-8 0 1 13h8l1-13M10 11v6m4-6v6"/></svg></button>' +
       '</div>'
     );
   }
 
   function expenseProductCard(e, withActions) {
     var cat = categoryById(e.category);
-    var title = e.note ? escapeHTML(e.note) : 'Expense';
+    var note = e.note || cat.name;
     return (
       '<article class="expense-item expense-product-card" data-id="' + e.id + '">' +
         expensePhotoMarkup(e) +
         '<div class="expense-product-body">' +
-          '<div class="expense-product-top">' +
+          '<div class="expense-product-main">' +
             '<div class="expense-product-copy">' +
-              '<div class="expense-cat" style="background:' + cat.color + '22;color:' + cat.color + ';border-color:' + cat.color + '55">' + escapeHTML(cat.name) + '</div>' +
-              '<div class="expense-name">' + title + '</div>' +
-              '<div class="expense-amount">-' + formatMoney(e.amount) + '</div>' +
-              '<div class="expense-date"><span class="date-icon" aria-hidden="true">▣</span>' + formatDateFriendly(e.date) + '</div>' +
+              '<h3>' + escapeHTML(note) + '</h3>' +
+              '<p>' + escapeHTML(cat.name) + '</p>' +
+              '<span class="expense-category-pill" style="--cat:' + cat.color + '">' + escapeHTML(cat.icon) + ' ' + escapeHTML(cat.name) + '</span>' +
+              '<time>' + escapeHTML(formatDateFriendly(e.date)) + (e.time ? ' • ' + escapeHTML(e.time) : '') + '</time>' +
             '</div>' +
-            (withActions ? '<div class="expense-card-actions">' +
-              '<button type="button" class="edit-action icon-action" data-id="' + e.id + '" aria-label="Edit expense">✎</button>' +
-              '<button type="button" class="menu-action icon-action" data-id="' + e.id + '" aria-label="More expense actions" aria-expanded="false">⋮</button>' +
-            '</div>' : '') +
+            '<div class="expense-product-right">' +
+              '<strong>-' + formatMoney(e.amount) + '</strong>' +
+              (withActions ? expenseActionMarkup(e) : '') +
+            '</div>' +
           '</div>' +
-          (withActions ? expenseActionMarkup(e) : '') +
         '</div>' +
       '</article>'
     );
@@ -676,6 +671,13 @@
     var listEl = document.getElementById("all-expenses-list");
     var emptyEl = document.getElementById("all-empty");
     var filtered = getFilteredSortedExpenses();
+    var cycle = computeCycle();
+    var totalEl = document.getElementById("history-total-expenses");
+    var remainingEl = document.getElementById("history-remaining-balance");
+    var salaryEl = document.getElementById("history-salary-total");
+    if (totalEl) totalEl.textContent = formatMoney(cycle.spent);
+    if (remainingEl) remainingEl.textContent = formatMoney(cycle.remaining);
+    if (salaryEl) salaryEl.textContent = formatMoney(cycle.salary);
 
     renderExpenseListWithActions(listEl, filtered);
 
@@ -708,14 +710,6 @@
         showConfirm("Delete this expense?", "This will permanently remove this expense from your records.", function () {
           deleteExpense(id);
         }, { okLabel: "Delete" });
-      });
-    });
-    container.querySelectorAll(".menu-action").forEach(function (btn) {
-      btn.addEventListener("click", function (ev) {
-        ev.stopPropagation();
-        var card = btn.closest(".expense-item");
-        var open = card.classList.toggle("actions-open");
-        btn.setAttribute("aria-expanded", open ? "true" : "false");
       });
     });
     container.querySelectorAll(".expense-item").forEach(function (item) {
@@ -1589,6 +1583,11 @@
       });
     });
     document.getElementById("btn-empty-add") && document.getElementById("btn-empty-add").addEventListener("click", function () { openExpenseModal(null); });
+    document.getElementById("nav-add-expense") && document.getElementById("nav-add-expense").addEventListener("click", function () { openExpenseModal(null); });
+    document.getElementById("history-filter-toggle") && document.getElementById("history-filter-toggle").addEventListener("click", function () {
+      var row = document.getElementById("filter-row");
+      if (row) row.classList.toggle("show-all-filters");
+    });
     document.getElementById("content").addEventListener("click", function (e) {
       if (e.target && e.target.id === "btn-empty-add") openExpenseModal(null);
     });
