@@ -400,49 +400,185 @@
     });
   }
 
+  var wizardInitialized = false;
+  var wizardStep = 1;
+  var wizardSalaryCursor = new Date();
+  var wizardNextCursor = new Date();
+  var wizardPendingCurrency = "INR";
+
   function initSetupScreen() {
     var today = todayISO();
     var next = toISODate(new Date(Date.now() + 30 * DAY_MS));
     var salaryDateInput = document.getElementById("input-salary-date");
     var nextDateInput = document.getElementById("input-next-date");
-    salaryDateInput.value = today;
-    nextDateInput.value = next;
-    populateCurrencySelect(document.getElementById("input-currency"), "INR");
+    salaryDateInput.value = salaryDateInput.value || today;
+    nextDateInput.value = nextDateInput.value || next;
+    populateCurrencySelect(document.getElementById("input-currency"), document.getElementById("input-currency").value || "INR");
     updateSetupDateDisplays();
-    updateSetupCurrencyDisplay("INR");
-    initPremiumDatePicker();
-    initPremiumCurrencyPicker();
+    updateSetupCurrencyDisplay(document.getElementById("input-currency").value || "INR");
 
-    document.getElementById("form-setup").addEventListener("submit", function (e) {
-      e.preventDefault();
-      clearSetupErrors();
+    if (!wizardInitialized) {
+      initOnboardingWizard();
+      wizardInitialized = true;
+    }
+    resetOnboardingWizard();
+  }
 
-      var salary = parseFloat(document.getElementById("input-salary").value);
-      var salaryDate = salaryDateInput.value;
-      var nextDate = nextDateInput.value;
-      var currency = document.getElementById("input-currency").value;
+  function resetOnboardingWizard() {
+    wizardStep = 1;
+    wizardSalaryCursor = parseISODate(document.getElementById("input-salary-date").value) || new Date();
+    wizardNextCursor = parseISODate(document.getElementById("input-next-date").value) || new Date(Date.now() + 30 * DAY_MS);
+    wizardPendingCurrency = document.getElementById("input-currency").value || "INR";
+    var pages = document.querySelectorAll(".wizard-page");
+    pages.forEach(function(page){ page.classList.toggle("active", page.getAttribute("data-step") === "1"); });
+    updateWizardChrome();
+    updateWizardSelectedDates();
+    renderWizardCalendar("salary");
+    renderWizardCalendar("next");
+    renderWizardCurrencies();
+    updateWizardSummary();
+  }
 
-      var hasError = false;
-      if (isNaN(salary) || salary <= 0) {
-        setFieldError("err-salary", "Enter a salary amount greater than 0.");
-        hasError = true;
-      }
-      if (!salaryDate) { setFieldError("err-salary-date", "Please pick your salary date."); hasError = true; }
-      if (!nextDate) { setFieldError("err-next-date", "Please pick your next salary date."); hasError = true; }
-      if (salaryDate && nextDate && parseISODate(nextDate) <= parseISODate(salaryDate)) {
-        setFieldError("err-next-date", "Next salary date must be after the salary date."); hasError = true;
-      }
-      if (hasError) return;
+  function updateWizardChrome() {
+    var fill = document.getElementById("wizard-progress-fill");
+    var step = document.getElementById("wizard-step");
+    if (fill) fill.style.width = ((wizardStep / 5) * 100) + "%";
+    if (step) step.textContent = wizardStep + "/5";
+    var themeBtn = document.getElementById("btn-setup-theme");
+    if (themeBtn) themeBtn.textContent = document.documentElement.getAttribute("data-theme") === "dark" ? "☀" : "☾";
+  }
 
-      state.salary.amount = salary;
-      state.salary.startDate = salaryDate;
-      state.salary.nextDate = nextDate;
-      state.settings.currency = currency;
-      state.onboarded = true;
-      persist();
-      toast("Welcome! Your salary cycle is set up.");
-      showMainApp();
+  function initOnboardingWizard() {
+    document.querySelectorAll(".wizard-next").forEach(function(btn){
+      btn.addEventListener("click", function(){ wizardValidateAndNext(parseInt(btn.getAttribute("data-next"),10)); });
     });
+    document.querySelectorAll(".wizard-back").forEach(function(btn){
+      btn.addEventListener("click", function(){ wizardGoTo(parseInt(btn.getAttribute("data-back"),10), "back"); });
+    });
+    document.getElementById("wizard-salary-prev").addEventListener("click", function(){ wizardSalaryCursor.setMonth(wizardSalaryCursor.getMonth()-1); renderWizardCalendar("salary"); });
+    document.getElementById("wizard-salary-next").addEventListener("click", function(){ wizardSalaryCursor.setMonth(wizardSalaryCursor.getMonth()+1); renderWizardCalendar("salary"); });
+    document.getElementById("wizard-next-prev").addEventListener("click", function(){ wizardNextCursor.setMonth(wizardNextCursor.getMonth()-1); renderWizardCalendar("next"); });
+    document.getElementById("wizard-next-next").addEventListener("click", function(){ wizardNextCursor.setMonth(wizardNextCursor.getMonth()+1); renderWizardCalendar("next"); });
+    document.getElementById("wizard-currency-search").addEventListener("input", renderWizardCurrencies);
+    document.getElementById("wizard-finish").addEventListener("click", finishOnboarding);
+    document.getElementById("btn-setup-theme").addEventListener("click", function(){
+      var current = document.documentElement.getAttribute("data-theme");
+      state.settings.theme = current === "dark" ? "light" : "dark";
+      persist(); applyTheme(); updateWizardChrome();
+    });
+  }
+
+  function wizardValidateAndNext(nextStep) {
+    clearSetupErrors();
+    if (wizardStep === 1) {
+      var salary = parseFloat(document.getElementById("input-salary").value);
+      if (isNaN(salary) || salary <= 0) { setFieldError("err-salary", "Enter a salary amount greater than 0."); return; }
+    }
+    if (wizardStep === 2) {
+      var salaryDate = document.getElementById("input-salary-date").value;
+      if (!salaryDate) { setFieldError("err-salary-date", "Please select your salary received date."); return; }
+    }
+    if (wizardStep === 3) {
+      var start = document.getElementById("input-salary-date").value;
+      var next = document.getElementById("input-next-date").value;
+      if (!next) { setFieldError("err-next-date", "Please select your next salary date."); return; }
+      if (start && parseISODate(next) <= parseISODate(start)) { setFieldError("err-next-date", "Next salary date must be after your received date."); return; }
+    }
+    if (wizardStep === 4 && !wizardPendingCurrency) return;
+    wizardGoTo(nextStep, "forward");
+  }
+
+  function wizardGoTo(nextStep, direction) {
+    if (nextStep < 1 || nextStep > 5 || nextStep === wizardStep) return;
+    var pages = document.querySelectorAll(".wizard-page");
+    var current = document.querySelector('.wizard-page[data-step="' + wizardStep + '"]');
+    var next = document.querySelector('.wizard-page[data-step="' + nextStep + '"]');
+    if (!next) return;
+    var transition = document.getElementById("onboarding-transition");
+    var label = document.getElementById("transition-label");
+    var labels = {2:"Your salary · Your date",3:"Your plan · Your payday",4:"Your country · Your currency",5:"Your setup · Your future",1:"Back to your plan"};
+    label.textContent = labels[nextStep] || "Your money · Your plan";
+    transition.hidden = false;
+    transition.classList.remove("show");
+    void transition.offsetWidth;
+    transition.classList.add("show");
+    current.classList.add(direction === "back" ? "wizard-leave-back" : "wizard-leave");
+    setTimeout(function(){
+      pages.forEach(function(page){ page.classList.remove("active","wizard-leave","wizard-leave-back"); });
+      next.classList.add("active");
+      wizardStep = nextStep;
+      updateWizardChrome();
+      if (wizardStep === 2) renderWizardCalendar("salary");
+      if (wizardStep === 3) renderWizardCalendar("next");
+      if (wizardStep === 4) renderWizardCurrencies();
+      if (wizardStep === 5) updateWizardSummary();
+      window.scrollTo({top:0,behavior:"auto"});
+    }, 240);
+    setTimeout(function(){ transition.classList.remove("show"); transition.hidden = true; }, 620);
+  }
+
+  function renderWizardCalendar(which) {
+    var isSalary = which === "salary";
+    var cursor = isSalary ? wizardSalaryCursor : wizardNextCursor;
+    var selected = document.getElementById(isSalary ? "input-salary-date" : "input-next-date").value;
+    var monthId = isSalary ? "wizard-salary-month" : "wizard-next-month";
+    var gridId = isSalary ? "wizard-salary-calendar" : "wizard-next-calendar";
+    document.getElementById(monthId).textContent = cursor.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+    var grid = document.getElementById(gridId); grid.innerHTML = "";
+    var y=cursor.getFullYear(), m=cursor.getMonth(), first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate();
+    for(var i=0;i<first;i++){ var blank=document.createElement("span"); blank.className="calendar-day muted"; grid.appendChild(blank); }
+    for(var day=1;day<=days;day++){
+      var b=document.createElement("button"); b.type="button"; b.className="calendar-day"; b.textContent=day;
+      var iso=toISODate(new Date(y,m,day));
+      if(iso===todayISO()) b.classList.add("today");
+      if(iso===selected) b.classList.add("selected");
+      b.addEventListener("click",(function(date,target){return function(){document.getElementById(target).value=date; if(target==="input-salary-date") wizardSalaryCursor=parseISODate(date); else wizardNextCursor=parseISODate(date); updateSetupDateDisplays(); updateWizardSelectedDates(); renderWizardCalendar(target==="input-salary-date"?"salary":"next");};})(iso,isSalary?"input-salary-date":"input-next-date"));
+      grid.appendChild(b);
+    }
+  }
+
+  function updateWizardSelectedDates() {
+    var a=document.getElementById("input-salary-date").value, b=document.getElementById("input-next-date").value;
+    document.getElementById("wizard-salary-date").textContent=displaySetupDate(a);
+    document.getElementById("wizard-next-date").textContent=displaySetupDate(b);
+  }
+
+  function renderWizardCurrencies() {
+    var q=(document.getElementById("wizard-currency-search").value||"").toLowerCase().trim();
+    var wrap=document.getElementById("wizard-currency-options"); wrap.innerHTML="";
+    Object.keys(CURRENCIES).filter(function(code){var c=CURRENCIES[code]; return !q || code.toLowerCase().includes(q) || c.name.toLowerCase().includes(q) || (c.country||"").toLowerCase().includes(q);}).forEach(function(code){
+      var c=CURRENCIES[code], b=document.createElement("button"); b.type="button"; b.className="currency-option"+(code===wizardPendingCurrency?" active":"");
+      b.innerHTML='<span class="currency-flag" aria-hidden="true">'+escapeHTML(c.flag||"💱")+'</span><span><strong>'+escapeHTML(code+' ('+c.symbol+')')+'</strong><small>'+escapeHTML(c.country||c.name)+'</small></span><span class="currency-radio"></span>';
+      b.addEventListener("click",function(){wizardPendingCurrency=code;document.getElementById("input-currency").value=code;updateSetupCurrencyDisplay(code);renderWizardCurrencies();});
+      wrap.appendChild(b);
+    });
+  }
+
+  function updateWizardSummary() {
+    updateWizardSelectedDates();
+    var salary=parseFloat(document.getElementById("input-salary").value)||0;
+    document.getElementById("summary-salary").textContent=formatMoneyPreview(salary);
+    var code=document.getElementById("input-currency").value||wizardPendingCurrency||"INR", c=CURRENCIES[code]||CURRENCIES.INR;
+    document.getElementById("summary-currency-flag").textContent=c.flag||"💱";
+    document.getElementById("summary-currency").textContent=code+" ("+c.symbol+") — "+(c.country||c.name);
+    document.getElementById("summary-salary-date").textContent=displaySetupDate(document.getElementById("input-salary-date").value);
+    document.getElementById("summary-next-date").textContent=displaySetupDate(document.getElementById("input-next-date").value);
+  }
+
+  function formatMoneyPreview(amount) {
+    var code=document.getElementById("input-currency") ? (document.getElementById("input-currency").value||"INR") : "INR";
+    var c=CURRENCIES[code]||CURRENCIES.INR;
+    return c.symbol+" "+Number(amount||0).toLocaleString(undefined,{maximumFractionDigits:2});
+  }
+
+  function finishOnboarding() {
+    clearSetupErrors();
+    var salary=parseFloat(document.getElementById("input-salary").value), salaryDate=document.getElementById("input-salary-date").value, nextDate=document.getElementById("input-next-date").value, currency=document.getElementById("input-currency").value||wizardPendingCurrency||"INR";
+    if(isNaN(salary)||salary<=0){wizardGoTo(1,"back");setFieldError("err-salary","Enter a salary amount greater than 0.");return;}
+    if(!salaryDate){wizardGoTo(2,"back");setFieldError("err-salary-date","Please select your salary received date.");return;}
+    if(!nextDate||parseISODate(nextDate)<=parseISODate(salaryDate)){wizardGoTo(3,"back");setFieldError("err-next-date","Next salary date must be after your received date.");return;}
+    state.salary.amount=salary; state.salary.startDate=salaryDate; state.salary.nextDate=nextDate; state.settings.currency=currency; state.onboarded=true;
+    persist(); toast("Welcome! Your salary cycle is set up."); showMainApp();
   }
 
   var setupPickerTarget = "salary";
@@ -463,9 +599,12 @@
 
   function updateSetupCurrencyDisplay(code) {
     var c = CURRENCIES[code] || CURRENCIES.INR;
-    document.getElementById("setup-currency-symbol").textContent = c.symbol;
-    document.getElementById("setup-currency-icon").textContent = c.flag || c.symbol;
-    document.getElementById("currency-display").textContent = code + " (" + c.symbol + ") — " + c.name + " · " + (c.country || "");
+    var sym = document.getElementById("setup-currency-symbol");
+    var icon = document.getElementById("setup-currency-icon");
+    var display = document.getElementById("currency-display");
+    if (sym) sym.textContent = c.symbol;
+    if (icon) icon.textContent = c.flag || c.symbol;
+    if (display) display.textContent = code + " (" + c.symbol + ") — " + c.name + " · " + (c.country || "");
   }
 
   function openSetupModal(id) { document.getElementById(id).hidden = false; document.body.classList.add("modal-open"); }
