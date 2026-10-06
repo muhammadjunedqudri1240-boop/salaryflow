@@ -593,8 +593,12 @@
   }
 
   function updateSetupDateDisplays() {
-    document.getElementById("salary-date-display").textContent = displaySetupDate(document.getElementById("input-salary-date").value);
-    document.getElementById("next-date-display").textContent = displaySetupDate(document.getElementById("input-next-date").value);
+    var salaryDisplay = document.getElementById("salary-date-display");
+    var nextDisplay = document.getElementById("next-date-display");
+    var salaryInput = document.getElementById("input-salary-date");
+    var nextInput = document.getElementById("input-next-date");
+    if (salaryDisplay && salaryInput) salaryDisplay.textContent = displaySetupDate(salaryInput.value);
+    if (nextDisplay && nextInput) nextDisplay.textContent = displaySetupDate(nextInput.value);
   }
 
   function updateSetupCurrencyDisplay(code) {
