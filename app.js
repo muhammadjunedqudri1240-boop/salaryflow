@@ -12,12 +12,12 @@
   var STORAGE_KEY = "salaryflow_data_v1";
 
   var CURRENCIES = {
-    INR: { symbol: "₹", name: "Indian Rupee" },
-    USD: { symbol: "$", name: "US Dollar" },
-    EUR: { symbol: "€", name: "Euro" },
-    GBP: { symbol: "£", name: "British Pound" },
-    AED: { symbol: "د.إ", name: "UAE Dirham" },
-    SAR: { symbol: "﷼", name: "Saudi Riyal" }
+    INR: { symbol: "₹", name: "Indian Rupee", country: "India", flag: "🇮🇳" },
+    USD: { symbol: "$", name: "US Dollar", country: "United States", flag: "🇺🇸" },
+    EUR: { symbol: "€", name: "Euro", country: "European Union", flag: "🇪🇺" },
+    GBP: { symbol: "£", name: "British Pound", country: "United Kingdom", flag: "🇬🇧" },
+    AED: { symbol: "د.إ", name: "UAE Dirham", country: "United Arab Emirates", flag: "🇦🇪" },
+    SAR: { symbol: "﷼", name: "Saudi Riyal", country: "Saudi Arabia", flag: "🇸🇦" }
   };
 
   var DEFAULT_CATEGORIES = [
@@ -351,7 +351,7 @@
     }
     document.documentElement.setAttribute("data-theme", effective);
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", effective === "dark" ? "#10151C" : "#F5FAF8");
+    if (meta) meta.setAttribute("content", effective === "dark" ? "#10151C" : "#0F8B8D");
     updateSegmented();
   }
 
@@ -464,8 +464,8 @@
   function updateSetupCurrencyDisplay(code) {
     var c = CURRENCIES[code] || CURRENCIES.INR;
     document.getElementById("setup-currency-symbol").textContent = c.symbol;
-    document.getElementById("setup-currency-icon").textContent = c.symbol;
-    document.getElementById("currency-display").textContent = code + " (" + c.symbol + ") — " + c.name;
+    document.getElementById("setup-currency-icon").textContent = c.flag || c.symbol;
+    document.getElementById("currency-display").textContent = code + " (" + c.symbol + ") — " + c.name + " · " + (c.country || "");
   }
 
   function openSetupModal(id) { document.getElementById(id).hidden = false; document.body.classList.add("modal-open"); }
@@ -532,7 +532,7 @@
     var wrap=document.getElementById("currency-options"); wrap.innerHTML="";
     Object.keys(CURRENCIES).filter(function(code){ var c=CURRENCIES[code]; return !q || code.toLowerCase().includes(q) || c.name.toLowerCase().includes(q); }).forEach(function(code){
       var c=CURRENCIES[code], b=document.createElement("button"); b.type="button"; b.className="currency-option"+(code===setupPendingCurrency?" active":"");
-      b.innerHTML='<span class="currency-flag">'+escapeHTML(c.symbol)+'</span><span><strong>'+escapeHTML(code+' ('+c.symbol+')')+'</strong><small>'+escapeHTML(c.name)+'</small></span><span class="currency-radio"></span>';
+      b.innerHTML='<span class="currency-flag" aria-hidden="true">'+escapeHTML(c.flag||'💱')+'</span><span><strong>'+escapeHTML(code+' ('+c.symbol+')')+'</strong><small>'+escapeHTML(c.name)+' · '+escapeHTML(c.country||'')+'</small></span><span class="currency-radio"></span>';
       b.addEventListener("click",function(){setupPendingCurrency=code;renderCurrencyOptions();}); wrap.appendChild(b);
     });
   }

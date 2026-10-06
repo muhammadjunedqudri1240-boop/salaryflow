@@ -166,3 +166,7 @@ asks for confirmation before proceeding.
 
 Built with HTML, CSS and vanilla JavaScript only. No frameworks, no AI features,
 no analytics, no ads, no external servers.
+
+
+### Currency flags
+Currency data includes country/region names and flag indicators for INR, USD, EUR, GBP, AED, and SAR. The premium currency picker displays the corresponding flag and country/region name.
