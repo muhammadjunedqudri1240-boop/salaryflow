@@ -3,7 +3,7 @@
    directly via file://), the app still works fully, just without
    installability / offline-after-first-visit via a server. */
 
-var CACHE_NAME = "salaryflow-cache-v9";
+var CACHE_NAME = "salaryflow-cache-v10";
 var APP_SHELL = [
   "./",
   "./index.html",

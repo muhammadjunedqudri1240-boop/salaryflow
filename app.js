@@ -414,6 +414,15 @@
     salaryDateInput.value = salaryDateInput.value || today;
     nextDateInput.value = nextDateInput.value || next;
     populateCurrencySelect(document.getElementById("input-currency"), document.getElementById("input-currency").value || "INR");
+
+    // UI-only input normalization: keep the premium salary field free of native number-input styling.
+    var salaryInput = document.getElementById("input-salary");
+    if (salaryInput && !salaryInput.dataset.uiNormalized) {
+      salaryInput.dataset.uiNormalized = "1";
+      salaryInput.addEventListener("input", function () {
+        this.value = this.value.replace(/,/g, "").replace(/[^0-9.]/g, "");
+      });
+    }
     updateSetupDateDisplays();
     updateSetupCurrencyDisplay(document.getElementById("input-currency").value || "INR");
 

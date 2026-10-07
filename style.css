@@ -1386,265 +1386,174 @@ body.modal-open{overflow:hidden}
 }
 
 /* ========================================================================
-   SALARYFLOW STEP 1 — MATCH THE SUPPLIED PREMIUM REFERENCE ARTWORK
-   UI/UX only. Existing JS/data flow remains unchanged.
+   SALARYFLOW STEP 1 — FINAL REFERENCE-MATCHED MOBILE LAYOUT
+   The supplied reference is a premium split hero: copy on the left,
+   wallet artwork on the right, then one large glass salary card.
+   No app/business logic is changed here.
    ======================================================================== */
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .nature-illustration.reference-wallet-art{
-  position:relative!important;
-  display:flex!important;
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"]{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(145px,.88fr)!important;
+  grid-template-rows:auto auto auto auto auto auto auto!important;
+  column-gap:10px!important;
+  row-gap:0!important;
   align-items:center!important;
-  justify-content:flex-end!important;
-  width:100%!important;
-  height:210px!important;
-  margin:0!important;
+  min-height:0!important;
+  height:auto!important;
   overflow:visible!important;
-  background:none!important;
-  z-index:1!important;
+  padding-top:10px!important;
+}
+
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-kicker{
+  grid-column:1!important;grid-row:1!important;
+  margin:0 0 7px!important;
+  font-size:10px!important;letter-spacing:.14em!important;font-weight:900!important;
+  color:#27e7b0!important;white-space:nowrap!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-title{
+  grid-column:1!important;grid-row:2!important;
+  margin:0!important;max-width:none!important;
+  font-size:31px!important;line-height:1.02!important;letter-spacing:-.045em!important;
+  font-weight:850!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-title em{
+  color:#20e8ae!important;font-style:normal!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-sub{
+  grid-column:1!important;grid-row:3!important;
+  margin:12px 0 0!important;max-width:100%!important;
+  font-size:12px!important;line-height:1.45!important;color:#9ab2aa!important;
+}
+
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-art{
+  grid-column:2!important;grid-row:1 / span 3!important;
+  width:100%!important;height:220px!important;margin:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  overflow:hidden!important;background:transparent!important;border:0!important;
+  border-radius:24px!important;z-index:1!important;
 }
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-image{
-  display:block!important;
-  width:min(100%,500px)!important;
-  height:210px!important;
-  object-fit:cover!important;
-  object-position:center 55%!important;
-  border-radius:42px!important;
-  filter:saturate(1.08) contrast(1.03)!important;
-  box-shadow:0 18px 42px rgba(0,0,0,.32),0 0 45px rgba(22,230,167,.12)!important;
-  transform:translateX(8px)!important;
+  display:block!important;width:100%!important;height:100%!important;
+  max-width:none!important;object-fit:cover!important;object-position:center center!important;
+  border:0!important;border-radius:24px!important;transform:none!important;
+  box-shadow:0 18px 38px rgba(0,0,0,.25),0 0 35px rgba(27,231,170,.12)!important;
+  filter:saturate(1.06) contrast(1.02)!important;
 }
+
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-input-card{
-  margin:0 0 7px!important;
-  padding:13px 13px 12px!important;
+  grid-column:1 / -1!important;grid-row:4!important;
+  width:100%!important;box-sizing:border-box!important;
+  margin:18px 0 10px!important;padding:15px!important;
   border-radius:25px!important;
   border:1px solid rgba(54,238,184,.55)!important;
-  background:linear-gradient(145deg,rgba(8,43,32,.94),rgba(4,24,18,.88))!important;
-  box-shadow:0 18px 45px rgba(0,0,0,.28),0 0 28px rgba(23,226,165,.09),inset 0 1px 0 rgba(255,255,255,.06)!important;
+  background:linear-gradient(145deg,rgba(7,42,31,.95),rgba(4,23,17,.90))!important;
+  box-shadow:0 18px 42px rgba(0,0,0,.28),0 0 26px rgba(23,226,165,.08),inset 0 1px 0 rgba(255,255,255,.06)!important;
 }
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading{
-  display:flex!important;align-items:center!important;gap:10px!important;margin:0 0 10px!important;
+  display:flex!important;align-items:center!important;gap:11px!important;margin:0 0 11px!important;
 }
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-icon{
-  width:42px!important;height:42px!important;flex:0 0 42px!important;border-radius:13px!important;
-  display:grid!important;place-items:center!important;font-size:24px!important;font-weight:900!important;color:#fff!important;
-  background:linear-gradient(145deg,#39e7b0,#0ba877)!important;
+  width:43px!important;height:43px!important;flex:0 0 43px!important;border-radius:13px!important;
+  display:grid!important;place-items:center!important;font-size:24px!important;font-weight:900!important;
+  color:#fff!important;background:linear-gradient(145deg,#3ce9b3,#0aa879)!important;
   box-shadow:0 8px 20px rgba(19,222,163,.25),inset 0 1px 0 rgba(255,255,255,.38)!important;
 }
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading > span:last-child{
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  gap:3px!important;min-width:0!important;flex:1!important;
+}
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading strong{
-  display:block!important;font-size:14px!important;line-height:1.1!important;color:#f5fffb!important;
+  display:block!important;color:#f5fffb!important;font-size:15px!important;line-height:1.1!important;
+  white-space:nowrap!important;
 }
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading small{
-  display:block!important;margin-top:4px!important;font-size:9px!important;line-height:1.2!important;color:#9ab7ad!important;
+  display:block!important;color:#8eaaa0!important;font-size:9px!important;line-height:1.2!important;
+  white-space:nowrap!important;
 }
+
+/* The salary field is text on purpose: Android/Chrome number controls were painting the grey native box. */
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .premium-control{
-  min-height:62px!important;height:62px!important;border:2px solid #29e4b1!important;border-radius:19px!important;
-  background:rgba(2,29,22,.74)!important;box-shadow:0 0 0 1px rgba(44,240,187,.10),0 0 22px rgba(24,231,170,.13),inset 0 1px 0 rgba(255,255,255,.05)!important;
+  display:grid!important;grid-template-columns:42px minmax(0,1fr) auto!important;align-items:center!important;
+  width:100%!important;height:60px!important;min-height:60px!important;box-sizing:border-box!important;
+  padding:0 14px!important;overflow:hidden!important;
+  border:2px solid #27e4b0!important;border-radius:19px!important;
+  background:rgba(2,29,22,.82)!important;
+  box-shadow:0 0 0 1px rgba(44,240,187,.08),0 0 22px rgba(24,231,170,.11),inset 0 1px 0 rgba(255,255,255,.05)!important;
 }
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money-symbol{font-size:27px!important;color:#35efb6!important}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input{font-size:25px!important;font-weight:600!important;color:#dbece7!important;-webkit-text-fill-color:#dbece7!important}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-hint{font-size:11px!important;color:#e2eee9!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money-symbol{
+  position:static!important;width:auto!important;margin:0!important;padding:0!important;
+  font-size:27px!important;font-weight:800!important;line-height:1!important;color:#35efb6!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input,
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input[type="text"]{
+  display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;
+  height:100%!important;box-sizing:border-box!important;margin:0!important;padding:0!important;
+  border:0!important;outline:0!important;border-radius:0!important;
+  background:transparent!important;background-color:transparent!important;background-image:none!important;
+  box-shadow:none!important;appearance:none!important;-webkit-appearance:none!important;
+  color:#e7f7f2!important;-webkit-text-fill-color:#e7f7f2!important;
+  caret-color:#2ce9b3!important;font:600 25px/1 inherit!important;letter-spacing:-.02em!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input::placeholder{
+  color:#8ca79f!important;-webkit-text-fill-color:#8ca79f!important;opacity:1!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-hint{
+  position:static!important;width:auto!important;margin:0!important;padding:0!important;
+  white-space:nowrap!important;text-align:right!important;font-size:10px!important;
+  color:#dbece7!important;line-height:1!important;
+}
+
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wizard-next{
-  height:58px!important;min-height:58px!important;border-radius:30px!important;font-size:18px!important;font-weight:800!important;
-  color:#032a20!important;background:linear-gradient(100deg,#32e8b2,#20dca9)!important;
-  box-shadow:0 12px 30px rgba(24,225,170,.25),0 0 0 5px rgba(41,228,177,.10),inset 0 1px 0 rgba(255,255,255,.55)!important;
+  grid-column:1 / -1!important;grid-row:5!important;
+  width:100%!important;height:57px!important;min-height:57px!important;margin:0!important;
+  border-radius:30px!important;font-size:18px!important;font-weight:800!important;color:#032a20!important;
+  background:linear-gradient(100deg,#2fe7b1,#20dca9)!important;
+  box-shadow:0 12px 30px rgba(24,225,170,.23),0 0 0 4px rgba(41,228,177,.08),inset 0 1px 0 rgba(255,255,255,.55)!important;
 }
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-privacy{font-size:10px!important;color:#90aaa2!important;margin:6px 0 0!important;text-align:center!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-privacy{
+  grid-column:1 / -1!important;grid-row:6!important;
+  margin:7px 0 0!important;text-align:center!important;font-size:9px!important;color:#78948b!important;
+}
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wizard-dots{
-  display:flex!important;justify-content:center!important;align-items:center!important;gap:7px!important;margin:7px 0 0!important;
+  grid-column:1 / -1!important;grid-row:7!important;
+  display:flex!important;justify-content:center!important;align-items:center!important;gap:7px!important;margin:9px 0 0!important;
 }
 #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wizard-dots span{
   display:block!important;width:10px!important;height:7px!important;border-radius:10px!important;background:rgba(31,129,111,.35)!important;
 }
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wizard-dots span.active{width:28px!important;background:#2ce9b3!important;box-shadow:0 0 12px rgba(44,233,179,.45)!important}
-
-/* Keep the exact reference composition usable on shorter phones. */
-@media(max-width:430px){
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-title{font-size:29px!important;line-height:1.04!important;max-width:330px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-sub{font-size:12px!important;line-height:1.4!important;max-width:340px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-art{height:182px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-image{height:182px!important;width:100%!important;object-position:center 54%!important;border-radius:32px!important}
-}
-@media(max-width:380px){
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-title{font-size:26px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-sub{font-size:11px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-art{height:155px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-image{height:155px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-input-card{padding:10px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-icon{width:38px!important;height:38px!important;flex-basis:38px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .premium-control{height:56px!important;min-height:56px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wizard-next{height:52px!important;min-height:52px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wizard-dots span.active{
+  width:28px!important;background:#2ce9b3!important;box-shadow:0 0 12px rgba(44,233,179,.45)!important;
 }
 
-/* Light mode: same reference structure, different visual language. */
 [data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-input-card{
-  background:linear-gradient(145deg,#ffffff,#f1fbf6)!important;border-color:#8edcc4!important;box-shadow:0 18px 40px rgba(22,119,87,.10)!important;
+  background:linear-gradient(145deg,#ffffff,#f1fbf6)!important;border-color:#8edcc4!important;
+  box-shadow:0 18px 40px rgba(22,119,87,.10),inset 0 1px 0 #fff!important;
 }
 [data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading strong{color:#0d4034!important}
 [data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading small{color:#6d9186!important}
 [data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .premium-control{background:#f7fffb!important;border-color:#23c99a!important}
 [data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input{color:#123a2f!important;-webkit-text-fill-color:#123a2f!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input::placeholder{color:#76978c!important;-webkit-text-fill-color:#76978c!important}
 [data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-hint{color:#35685b!important}
 
-/* ========================================================================
-   SALARYFLOW STEP 1 — FINAL MOBILE FIX
-   Fixes the two visible issues from the deployed screenshot:
-   1) wallet artwork not visible / too much empty space
-   2) native number-input grey box and overflowing text
-   No app/business logic is changed.
-   ======================================================================== */
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"]{
-  height:auto!important;
-  min-height:0!important;
-  overflow:visible!important;
-  justify-content:flex-start!important;
-}
-
-/* Wallet artwork: full-width visual, softly blended into the dark background. */
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-art{
-  width:100%!important;
-  height:230px!important;
-  margin:2px 0 2px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  overflow:hidden!important;
-  background:transparent!important;
-  border:0!important;
-}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-image{
-  display:block!important;
-  width:100%!important;
-  max-width:430px!important;
-  height:230px!important;
-  object-fit:cover!important;
-  object-position:center 50%!important;
-  border:0!important;
-  border-radius:0!important;
-  transform:none!important;
-  box-shadow:none!important;
-  filter:saturate(1.08) contrast(1.02)!important;
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 88%,transparent 100%);
-  mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,#000 88%,transparent 100%);
-}
-
-/* Salary card heading: icon, title and subtitle must never collapse into one line. */
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading{
-  width:100%!important;
-  display:flex!important;
-  align-items:center!important;
-  gap:11px!important;
-  margin:0 0 11px!important;
-}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading > span:last-child{
-  min-width:0!important;
-  flex:1 1 auto!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:flex-start!important;
-  justify-content:center!important;
-  gap:3px!important;
-}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading strong{
-  white-space:nowrap!important;
-}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading small{
-  white-space:normal!important;
-}
-
-/* Remove every native number-input visual that was producing the grey rectangle. */
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .premium-control{
-  display:grid!important;
-  grid-template-columns:42px minmax(0,1fr) auto!important;
-  align-items:center!important;
-  gap:0!important;
-  width:100%!important;
-  min-width:0!important;
-  box-sizing:border-box!important;
-  overflow:hidden!important;
-  padding:0 14px!important;
-  color-scheme:dark!important;
-}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money-symbol{
-  position:static!important;
-  width:auto!important;
-  margin:0!important;
-  padding:0!important;
-  line-height:1!important;
-  pointer-events:none!important;
-}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input,
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input[type="number"]{
-  display:block!important;
-  width:100%!important;
-  min-width:0!important;
-  max-width:100%!important;
-  height:100%!important;
-  box-sizing:border-box!important;
-  margin:0!important;
-  padding:0!important;
-  border:0!important;
-  outline:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  background-color:transparent!important;
-  background-image:none!important;
-  box-shadow:none!important;
-  appearance:none!important;
-  -webkit-appearance:none!important;
-  color:#e5f7f1!important;
-  -webkit-text-fill-color:#e5f7f1!important;
-  caret-color:#32e8b2!important;
-  font-size:25px!important;
-  font-weight:700!important;
-  line-height:1!important;
-}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input::-webkit-inner-spin-button,
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input::-webkit-outer-spin-button{
-  -webkit-appearance:none!important;
-  appearance:none!important;
-  margin:0!important;
-}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input::placeholder{
-  color:#8da69f!important;
-  -webkit-text-fill-color:#8da69f!important;
-  opacity:1!important;
-}
-#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-hint{
-  position:static!important;
-  width:auto!important;
-  margin:0!important;
-  padding:0!important;
-  white-space:nowrap!important;
-  text-align:right!important;
-  line-height:1!important;
-}
-
-/* Keep the complete Step 1 visible on normal Android phone heights. */
 @media(max-width:430px){
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-art{height:215px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-image{height:215px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-input-card{padding:14px!important;margin:0 0 8px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-icon{width:42px!important;height:42px!important;flex-basis:42px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .premium-control{height:60px!important;min-height:60px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wizard-next{height:56px!important;min-height:56px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"]{grid-template-columns:minmax(0,1fr) minmax(145px,.88fr)!important;column-gap:9px!important;padding-top:8px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-title{font-size:28px!important;line-height:1.03!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-sub{font-size:11px!important;line-height:1.42!important;margin-top:10px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-art{height:205px!important;border-radius:22px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-image{border-radius:22px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-input-card{margin-top:14px!important;padding:14px!important}
 }
 @media(max-width:380px){
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-art{height:190px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-image{height:190px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-input-card{padding:12px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-icon{width:38px!important;height:38px!important;flex-basis:38px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-card-heading{gap:9px!important;margin-bottom:9px!important}
-  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .premium-control{grid-template-columns:34px minmax(0,1fr) auto!important;height:56px!important;min-height:56px!important;padding:0 11px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"]{grid-template-columns:minmax(0,1fr) 135px!important;column-gap:7px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-kicker{font-size:9px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-title{font-size:25px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .setup-sub{font-size:10px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .reference-wallet-art{height:180px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-input-card{padding:12px!important;margin-top:12px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .premium-control{height:56px!important;min-height:56px!important;grid-template-columns:34px minmax(0,1fr) auto!important;padding:0 11px!important}
   #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money-symbol{font-size:23px!important}
   #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input{font-size:23px!important}
   #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-hint{font-size:9px!important}
-}
-
-[data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .premium-control{color-scheme:light!important}
-[data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input{
-  color:#173c31!important;
-  -webkit-text-fill-color:#173c31!important;
-}
-[data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input::placeholder{
-  color:#78968d!important;
-  -webkit-text-fill-color:#78968d!important;
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wizard-next{height:53px!important;min-height:53px!important}
 }
