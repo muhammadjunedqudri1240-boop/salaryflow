@@ -48,9 +48,14 @@
           <span class="setup-kicker">YOUR MONEY, YOUR PLAN</span>
           <h1 class="setup-title">What is your <em>monthly salary?</em></h1>
           <p class="setup-sub">Tell us your take-home salary so SalaryFlow can build a simple daily spending plan for you.</p>
-          <div class="nature-illustration nature-wallet" aria-hidden="true"><span class="coin coin-one">₹</span><span class="coin coin-two">₹</span><span class="wallet-shape"></span><span class="leaf-spark ls-one"></span><span class="leaf-spark ls-two"></span></div>
+          <div class="nature-illustration nature-wallet reference-wallet-art" aria-hidden="true">
+            <img src="assets/salary-wallet-reference.png" alt="" class="reference-wallet-image" />
+          </div>
           <div class="wizard-card salary-input-card">
-            <span class="field-label">Monthly salary</span>
+            <div class="salary-card-heading">
+              <span class="salary-card-icon" aria-hidden="true">₹</span>
+              <span><strong>Monthly Salary</strong><small>Enter your take-home salary</small></span>
+            </div>
             <div class="field-money premium-control">
               <span id="setup-currency-symbol" class="field-money-symbol">₹</span>
               <input type="number" id="input-salary" inputmode="decimal" min="0" step="0.01" placeholder="50,000" autocomplete="off" />
@@ -59,7 +64,8 @@
             <span class="field-error" id="err-salary"></span>
           </div>
           <button type="button" class="btn btn-primary btn-block btn-lg wizard-next" data-next="2">Next <span>→</span></button>
-          <p class="setup-privacy">⌕ &nbsp; Your data stays private on this device</p>
+          <p class="setup-privacy">🔒 &nbsp; Your data stays private on this device</p>
+          <div class="wizard-dots" aria-hidden="true"><span class="active"></span><span></span><span></span><span></span><span></span></div>
         </section>
 
         <!-- STEP 2 -->
