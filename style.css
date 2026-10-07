@@ -780,3 +780,116 @@ body.modal-open{overflow:hidden}
 @keyframes orbitPulse{0%,100%{transform:scale(.88);opacity:.6}50%{transform:scale(1.08);opacity:1}}
 @media (max-width:480px){#screen-setup.onboarding-v2{padding:14px 16px 28px}.wizard-pages{min-height:calc(100svh - 100px)}.setup-title{font-size:31px!important}.nature-illustration{height:98px}.wizard-calendar-card{padding:13px}.wizard-calendar-card .calendar-day{min-height:38px}.wizard-currency-options{max-height:44vh}.wizard-summary-card{margin-top:20px}}
 @media (max-width:360px){.setup-title{font-size:28px!important}.wizard-calendar-card .calendar-day{min-height:34px;font-size:12px}.wizard-selected-card{margin-top:14px}.wizard-progress{margin-bottom:18px}}
+
+/* ========================================================================
+   SALARYFLOW PREMIUM V4 — visual refresh based on approved 5-step concept
+   Only onboarding visuals are affected. Existing functionality is untouched.
+   ======================================================================== */
+#screen-setup.onboarding-v2{max-width:none!important;width:100%;min-height:100svh;padding:14px 16px 30px;background-attachment:fixed;}
+#screen-setup.onboarding-v2:before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;opacity:.9;background:
+ radial-gradient(45% 30% at 88% 18%,rgba(31,227,166,.17),transparent 70%),
+ radial-gradient(42% 28% at 8% 86%,rgba(17,177,126,.13),transparent 72%),
+ linear-gradient(135deg,transparent 0 48%,rgba(31,227,166,.025) 48.2% 48.7%,transparent 49% 100%);}
+#screen-setup.onboarding-v2:after{content:"";position:absolute;left:-8%;right:-8%;bottom:-3%;height:160px;z-index:-1;pointer-events:none;border-radius:50% 50% 0 0/100% 100% 0 0;background:linear-gradient(180deg,rgba(20,220,163,.10),rgba(20,220,163,0));box-shadow:0 -1px 0 rgba(44,241,185,.12);}
+.onboarding-v2{width:100%;max-width:520px!important;margin:0 auto;}
+.onboarding-header{padding:2px 0 2px!important;margin-bottom:12px!important;}
+.setup-brand-main{gap:11px}.setup-brand .setup-badge{width:52px!important;height:52px!important;border-radius:17px!important;box-shadow:0 12px 32px rgba(31,227,166,.25),inset 0 1px 0 rgba(255,255,255,.3)!important;}
+.setup-brand strong{font-size:18px!important;font-weight:800!important}.setup-brand span{font-size:9px!important;letter-spacing:.15em!important;margin-top:4px!important;}
+.onboarding-head-actions{gap:9px}.setup-step{min-width:46px;text-align:center;padding:8px 11px!important;font-size:11px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08);}
+.setup-theme-btn{width:44px!important;height:44px!important;font-size:19px!important;border-radius:50%!important;backdrop-filter:blur(12px);}
+.wizard-progress{height:5px!important;margin:4px 0 20px!important;background:rgba(127,153,143,.14)!important;box-shadow:inset 0 1px 2px rgba(0,0,0,.12);}
+.wizard-progress-fill{box-shadow:0 0 18px rgba(31,227,166,.55)!important;}
+.wizard-pages{min-height:calc(100svh - 108px);}
+.wizard-page{position:relative;min-height:calc(100svh - 118px);padding:4px 0 18px;}
+.wizard-page.active{animation:premiumPageIn .58s cubic-bezier(.16,.85,.2,1) both;}
+.wizard-page:before{content:"";position:absolute;right:-80px;top:75px;width:190px;height:190px;border-radius:50%;background:rgba(31,227,166,.055);filter:blur(24px);pointer-events:none;}
+.wizard-page .setup-kicker{font-size:11px!important;letter-spacing:.18em!important;font-weight:900!important;text-shadow:0 0 16px rgba(31,227,166,.16);}
+.wizard-page .setup-title{font-size:39px!important;line-height:1.03!important;letter-spacing:-.055em!important;margin-top:10px!important;max-width:470px;text-wrap:balance;}
+.wizard-page .setup-title em{font-weight:800;}
+.wizard-page .setup-sub{font-size:15px!important;line-height:1.58!important;max-width:430px!important;margin-top:15px!important;}
+
+/* Premium hero wallet / nature scene */
+.nature-illustration{height:178px!important;margin:6px 0 3px!important;display:flex;align-items:center;justify-content:center;}
+.nature-illustration:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(31,227,166,.19),rgba(31,227,166,.03) 52%,transparent 72%);filter:blur(2px);}
+.wallet-shape{width:174px!important;height:94px!important;border-radius:24px 24px 31px 31px!important;transform:rotate(-5deg)!important;box-shadow:0 25px 55px rgba(14,180,128,.28),0 0 35px rgba(31,227,166,.12)!important;}
+.wallet-shape:before{width:156px!important;height:27px!important;left:9px!important;top:-13px!important;border-radius:15px!important;}
+.wallet-shape:after{right:16px!important;top:36px!important;width:30px!important;height:22px!important;border-radius:8px!important;}
+.wallet-shape:global{filter:saturate(1.1)}
+.coin{width:50px!important;height:50px!important;font-size:20px!important;box-shadow:0 13px 30px rgba(31,227,166,.30)!important;}
+.coin-one{transform:translate(64px,-55px) rotate(10deg)!important}.coin-two{transform:translate(-68px,-34px) scale(.82) rotate(-12deg)!important}
+.leaf-spark{width:62px!important;height:28px!important;box-shadow:0 8px 18px rgba(31,227,166,.12);}
+.ls-one{left:calc(50% + 72px)!important;bottom:40px!important}.ls-two{right:calc(50% + 73px)!important;bottom:55px!important;}
+
+/* Salary card becomes a premium glass panel */
+.salary-input-card{padding:16px 16px 17px!important;border-radius:25px!important;border:1px solid var(--wizard-border)!important;background:var(--wizard-card)!important;box-shadow:var(--wizard-shadow),inset 0 1px 0 rgba(255,255,255,.08)!important;backdrop-filter:blur(18px)!important;}
+.salary-input-card:before{content:"";position:absolute;inset:0;border-radius:25px;pointer-events:none;background:linear-gradient(135deg,rgba(31,227,166,.07),transparent 35%,transparent 70%,rgba(31,227,166,.035));}
+.salary-input-card .field-label{font-size:11px!important;margin:0 0 10px 2px!important;position:relative;z-index:1;}
+.premium-control{min-height:74px!important;border-radius:20px!important;border:1px solid rgba(31,227,166,.58)!important;background:linear-gradient(135deg,rgba(8,28,21,.88),rgba(8,18,14,.76))!important;box-shadow:0 0 0 1px rgba(31,227,166,.08),0 12px 30px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.06)!important;position:relative;z-index:1;}
+.field-money-symbol{font-size:25px!important;font-weight:800!important;color:#22E7AB!important;}
+.field-money input{font-size:26px!important;font-weight:800!important;letter-spacing:-.03em!important;}
+.field-hint{font-size:12px!important;font-weight:600!important;}
+.wizard-next.btn-lg{height:58px!important;border-radius:30px!important;font-size:17px!important;font-weight:900!important;letter-spacing:-.01em!important;margin-top:12px!important;box-shadow:0 15px 34px rgba(31,227,166,.23),inset 0 1px 0 rgba(255,255,255,.35)!important;background:linear-gradient(105deg,#13C98D,#31EDB1)!important;position:relative;overflow:hidden;}
+.wizard-next.btn-lg:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 0 42%,rgba(255,255,255,.22) 50%,transparent 58%);transform:translateX(-120%);animation:buttonShine 3.4s ease-in-out infinite;}
+.setup-privacy{font-size:11px!important;margin-top:10px!important;}
+
+/* Step 2/3 calendar */
+.wizard-selected-card{border-radius:20px!important;padding:14px 15px!important;margin:18px 0 12px!important;box-shadow:var(--wizard-shadow),inset 0 1px 0 rgba(255,255,255,.07)!important;}
+.wizard-calendar-card{border-radius:25px!important;padding:17px!important;box-shadow:var(--wizard-shadow),inset 0 1px 0 rgba(255,255,255,.07)!important;}
+.wizard-calendar-card .calendar-nav strong{font-size:16px!important;font-weight:900!important;}
+.wizard-calendar-card .calendar-nav button{border-radius:14px!important;width:42px!important;height:42px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);}
+.wizard-calendar-card .calendar-day{min-height:43px!important;border-radius:14px!important;font-size:13px!important;transition:transform .18s ease,box-shadow .18s ease,background .18s ease;}
+.wizard-calendar-card .calendar-day.selected{transform:scale(1.08);box-shadow:0 10px 25px rgba(31,227,166,.3)!important;}
+.wizard-page[data-step="2"] .wizard-calendar-card:after,.wizard-page[data-step="3"] .wizard-calendar-card:after{content:"Selected date";display:block;margin:13px 2px 0;padding:9px 12px;border-radius:14px;color:var(--ink-soft);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:rgba(31,227,166,.055);border:1px solid rgba(31,227,166,.11);}
+
+/* Currency step */
+.wizard-currency-search{height:52px!important;border-radius:18px!important;box-shadow:var(--wizard-shadow),inset 0 1px 0 rgba(255,255,255,.06)!important;}
+.wizard-currency-options{gap:9px!important;max-height:49vh!important;}
+.wizard-currency-options .currency-option{min-height:64px!important;border-radius:18px!important;padding:10px 12px!important;box-shadow:0 8px 18px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.05)!important;transition:transform .18s ease,border-color .18s ease,background .18s ease;}
+.wizard-currency-options .currency-option:active{transform:scale(.985);}
+.wizard-currency-options .currency-option.active{box-shadow:0 0 0 1px rgba(31,227,166,.15),0 10px 24px rgba(31,227,166,.12)!important;}
+.currency-flag{width:44px!important;height:44px!important;flex-basis:44px!important;font-size:25px!important;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.currency-option strong{font-size:14px!important;font-weight:900!important;}.currency-option small{font-size:10px!important;}
+.currency-radio{width:20px!important;height:20px!important;}
+
+/* Summary / done step */
+.done-badge{width:88px!important;height:88px!important;border-radius:30px!important;margin:20px auto 18px!important;font-size:42px!important;box-shadow:0 20px 50px rgba(31,227,166,.3),inset 0 1px 0 rgba(255,255,255,.35)!important;}
+.wizard-page[data-step="5"] .setup-kicker,.wizard-page[data-step="5"] .setup-title,.wizard-page[data-step="5"] .setup-sub{text-align:center;display:block;}
+.wizard-summary-card{border-radius:25px!important;padding:8px!important;margin:22px 0 17px!important;box-shadow:var(--wizard-shadow),inset 0 1px 0 rgba(255,255,255,.08)!important;}
+.summary-row{padding:14px 11px!important;min-height:62px;}.summary-icon{width:42px!important;height:42px!important;flex-basis:42px!important;border-radius:14px!important;}
+.wizard-page[data-step="5"] .wizard-next{margin-top:4px!important;}
+
+/* premium page transition */
+.onboarding-transition{background:rgba(2,12,9,.95)!important;}
+.onboarding-transition.show .transition-logo{animation:transitionPop .55s cubic-bezier(.18,.9,.2,1.2) both;}
+.onboarding-transition.show .transition-orbit{animation:orbitPulse .9s ease-in-out infinite,transitionSpin 1.6s linear infinite;}
+
+/* Light mode is intentionally a separate visual language */
+[data-theme="light"] #screen-setup.onboarding-v2{background:linear-gradient(180deg,#F8FFFC 0%,#F0FBF6 55%,#E8F8F0 100%);}
+[data-theme="light"] #screen-setup.onboarding-v2:before{background:radial-gradient(46% 32% at 88% 16%,rgba(68,210,164,.20),transparent 70%),radial-gradient(44% 30% at 6% 86%,rgba(117,225,188,.18),transparent 72%);}
+[data-theme="light"] .nature-illustration:before{background:radial-gradient(circle,rgba(38,190,139,.15),rgba(38,190,139,.025) 55%,transparent 72%);}
+[data-theme="light"] .salary-input-card{background:rgba(255,255,255,.78)!important;box-shadow:0 18px 42px rgba(31,100,77,.10),inset 0 1px 0 rgba(255,255,255,.95)!important;}
+[data-theme="light"] .premium-control{background:linear-gradient(135deg,#FFFFFF,#F3FBF7)!important;border-color:#35C998!important;box-shadow:0 0 0 1px rgba(31,190,140,.08),0 12px 28px rgba(31,100,77,.08),inset 0 1px 0 #fff!important;}
+[data-theme="light"] .field-money input{color:#173A30!important;}.field-money input::placeholder{opacity:.45;}
+[data-theme="light"] .wizard-next.btn-lg{background:linear-gradient(105deg,#0AA974,#20C98F)!important;color:#fff!important;box-shadow:0 15px 30px rgba(10,169,116,.18),inset 0 1px 0 rgba(255,255,255,.4)!important;}
+[data-theme="light"] .wizard-calendar-card,[data-theme="light"] .wizard-selected-card,[data-theme="light"] .wizard-summary-card{box-shadow:0 18px 38px rgba(31,100,77,.09),inset 0 1px 0 rgba(255,255,255,.95)!important;}
+[data-theme="light"] .wizard-page:before{background:rgba(38,190,139,.07);}
+[data-theme="light"] .wizard-currency-options .currency-option{box-shadow:0 9px 20px rgba(31,100,77,.055),inset 0 1px 0 #fff!important;}
+[data-theme="light"] .onboarding-transition{background:rgba(247,255,251,.96)!important;}
+[data-theme="light"] .onboarding-transition strong{color:#153D31!important}.onboarding-transition small{letter-spacing:.14em!important;}
+
+@keyframes premiumPageIn{from{opacity:0;transform:translate3d(34px,12px,0) scale(.975);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+@keyframes buttonShine{0%,45%{transform:translateX(-120%)}62%,100%{transform:translateX(120%)}}
+@keyframes transitionPop{from{opacity:0;transform:scale(.72) rotate(-8deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes transitionSpin{to{transform:rotate(360deg)}}
+
+@media(max-width:480px){
+  #screen-setup.onboarding-v2{padding:12px 14px 24px;}
+  .wizard-page{min-height:calc(100svh - 105px);}
+  .wizard-page .setup-title{font-size:34px!important;}
+  .nature-illustration{height:150px!important;}
+  .wallet-shape{width:154px!important;height:84px!important;}
+  .coin-one{transform:translate(57px,-49px) rotate(10deg)!important}.coin-two{transform:translate(-59px,-31px) scale(.78) rotate(-12deg)!important}
+  .wizard-calendar-card{padding:14px!important;}.wizard-calendar-card .calendar-day{min-height:38px!important;font-size:12px!important;}
+  .wizard-currency-options{max-height:43vh!important;}
+}
+@media(max-width:360px){.wizard-page .setup-title{font-size:30px!important}.nature-illustration{height:132px!important}.wizard-calendar-card .calendar-day{min-height:34px!important;font-size:11px!important}.salary-input-card{padding:13px!important}.premium-control{min-height:68px!important}}
