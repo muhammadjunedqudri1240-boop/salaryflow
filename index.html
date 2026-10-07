@@ -64,7 +64,6 @@
 
         <!-- STEP 2 -->
         <section class="wizard-page" data-step="2">
-          <button type="button" class="wizard-back" data-back="1">‹ <span>Back</span></button>
           <span class="setup-kicker">SALARY RECEIVED</span>
           <h1 class="setup-title">When did you <em>receive</em> your salary?</h1>
           <p class="setup-sub">Choose the date your latest salary was received.</p>
@@ -76,12 +75,11 @@
           </div>
           <input type="date" id="input-salary-date" class="visually-hidden-input" required />
           <span class="field-error" id="err-salary-date"></span>
-          <button type="button" class="btn btn-primary btn-block btn-lg wizard-next" data-next="3">Next <span>→</span></button>
+          <div class="wizard-actions"><button type="button" class="wizard-back" data-back="1">← <span>Back</span></button><button type="button" class="btn btn-primary btn-lg wizard-next" data-next="3">Next <span>→</span></button></div>
         </section>
 
         <!-- STEP 3 -->
         <section class="wizard-page" data-step="3">
-          <button type="button" class="wizard-back" data-back="2">‹ <span>Back</span></button>
           <span class="setup-kicker">NEXT PAYDAY</span>
           <h1 class="setup-title">When is your <em>next salary date?</em></h1>
           <p class="setup-sub">This date helps us calculate how much you can safely spend each day.</p>
@@ -93,19 +91,18 @@
           </div>
           <input type="date" id="input-next-date" class="visually-hidden-input" required />
           <span class="field-error" id="err-next-date"></span>
-          <button type="button" class="btn btn-primary btn-block btn-lg wizard-next" data-next="4">Next <span>→</span></button>
+          <div class="wizard-actions"><button type="button" class="wizard-back" data-back="2">← <span>Back</span></button><button type="button" class="btn btn-primary btn-lg wizard-next" data-next="4">Next <span>→</span></button></div>
         </section>
 
         <!-- STEP 4 -->
         <section class="wizard-page" data-step="4">
-          <button type="button" class="wizard-back" data-back="3">‹ <span>Back</span></button>
           <span class="setup-kicker">YOUR COUNTRY & CURRENCY</span>
           <h1 class="setup-title">Select your <em>country & currency</em></h1>
           <p class="setup-sub">Choose the currency you use. Your country flag will stay with your currency everywhere in SalaryFlow.</p>
           <div class="currency-search wizard-currency-search">⌕ <input id="wizard-currency-search" type="text" placeholder="Search country or currency..." autocomplete="off" /></div>
           <div id="wizard-currency-options" class="currency-options wizard-currency-options"></div>
           <select id="input-currency" class="visually-hidden-input"></select>
-          <button type="button" class="btn btn-primary btn-block btn-lg wizard-next" data-next="5">Next <span>→</span></button>
+          <div class="wizard-actions"><button type="button" class="wizard-back" data-back="3">← <span>Back</span></button><button type="button" class="btn btn-primary btn-lg wizard-next" data-next="5">Next <span>→</span></button></div>
         </section>
 
         <!-- STEP 5 -->

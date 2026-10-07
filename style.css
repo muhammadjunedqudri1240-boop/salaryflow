@@ -893,3 +893,317 @@ body.modal-open{overflow:hidden}
   .wizard-currency-options{max-height:43vh!important;}
 }
 @media(max-width:360px){.wizard-page .setup-title{font-size:30px!important}.nature-illustration{height:132px!important}.wizard-calendar-card .calendar-day{min-height:34px!important;font-size:11px!important}.salary-input-card{padding:13px!important}.premium-control{min-height:68px!important}}
+
+/* ========================================================================
+   SALARYFLOW PREMIUM V5 — HEAVIER APPROVED CONCEPT
+   Visual-only onboarding refresh. Existing functionality untouched.
+   ======================================================================== */
+#screen-setup.onboarding-v2{
+  overflow:hidden!important;
+  background:#03110c!important;
+}
+#screen-setup.onboarding-v2:before{
+  opacity:1!important;
+  background:
+    radial-gradient(65% 42% at 92% 8%,rgba(22,235,164,.24),transparent 65%),
+    radial-gradient(55% 45% at 0% 100%,rgba(12,160,112,.20),transparent 68%),
+    radial-gradient(28% 24% at 78% 52%,rgba(18,214,151,.08),transparent 72%),
+    linear-gradient(145deg,#020b08 0%,#04150e 42%,#02100b 100%)!important;
+}
+#screen-setup.onboarding-v2:after{
+  height:220px!important;
+  bottom:-25px!important;
+  background:radial-gradient(70% 100% at 50% 100%,rgba(22,230,163,.18),transparent 68%)!important;
+  box-shadow:none!important;
+}
+#screen-setup.onboarding-v2 .onboarding-header{position:relative;z-index:4}
+#screen-setup.onboarding-v2 .setup-brand .setup-badge{
+  background:linear-gradient(145deg,#2cf0b0,#07986b)!important;
+  border:1px solid rgba(255,255,255,.35)!important;
+  box-shadow:0 14px 34px rgba(0,240,166,.28),0 0 28px rgba(0,240,166,.14),inset 0 1px 0 rgba(255,255,255,.45)!important;
+}
+#screen-setup.onboarding-v2 .setup-brand strong{color:#f3fff9!important}
+#screen-setup.onboarding-v2 .setup-brand span{color:#91aaa2!important}
+#screen-setup.onboarding-v2 .setup-step{
+  border:1px solid rgba(45,239,177,.42)!important;
+  background:rgba(4,31,23,.62)!important;
+  color:#a9d9c8!important;
+  border-radius:18px!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+#screen-setup.onboarding-v2 .setup-theme-btn{
+  border:1px solid rgba(45,239,177,.45)!important;
+  background:rgba(4,31,23,.62)!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+#screen-setup.onboarding-v2 .wizard-progress{
+  height:6px!important;
+  background:rgba(122,164,151,.14)!important;
+  border:1px solid rgba(255,255,255,.04)!important;
+}
+#screen-setup.onboarding-v2 .wizard-progress-fill{background:linear-gradient(90deg,#0ee49f,#67ffd0)!important}
+#screen-setup.onboarding-v2 .wizard-page{isolation:isolate}
+#screen-setup.onboarding-v2 .wizard-page:after{
+  content:"";position:absolute;inset:-30px -80px auto auto;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(31,235,169,.13),transparent 67%);filter:blur(4px);z-index:-1;pointer-events:none;
+}
+#screen-setup.onboarding-v2 .setup-kicker{color:#22e9ac!important;text-shadow:0 0 20px rgba(34,233,172,.24)!important}
+#screen-setup.onboarding-v2 .setup-title{font-size:42px!important;line-height:.99!important;color:#f4fbf8!important;text-shadow:0 10px 28px rgba(0,0,0,.25)!important}
+#screen-setup.onboarding-v2 .setup-title em{color:#20e9ab!important;font-style:normal;text-shadow:0 0 28px rgba(32,233,171,.17)!important}
+#screen-setup.onboarding-v2 .setup-sub{color:#9db5ad!important;font-size:15.5px!important;max-width:440px!important}
+
+/* More substantial hero scene */
+#screen-setup.onboarding-v2 .nature-illustration{
+  height:205px!important;margin:0 -4px 2px!important;position:relative!important;
+}
+#screen-setup.onboarding-v2 .nature-illustration:before{
+  width:235px!important;height:235px!important;
+  background:radial-gradient(circle,rgba(29,239,171,.20) 0%,rgba(18,188,133,.08) 38%,transparent 72%)!important;
+  filter:blur(3px)!important;
+}
+#screen-setup.onboarding-v2 .wallet-shape{
+  width:194px!important;height:108px!important;border-radius:28px 28px 34px 34px!important;
+  background:linear-gradient(145deg,#26e5a6 0%,#0da877 48%,#07583f 100%)!important;
+  border:1px solid rgba(194,255,232,.34)!important;
+  box-shadow:0 28px 60px rgba(0,0,0,.34),0 0 45px rgba(31,235,169,.22),inset 0 2px 0 rgba(255,255,255,.30)!important;
+}
+#screen-setup.onboarding-v2 .wallet-shape:before{background:linear-gradient(180deg,rgba(255,255,255,.24),rgba(255,255,255,.04))!important}
+#screen-setup.onboarding-v2 .coin{background:linear-gradient(145deg,#fff4aa,#e5a928 45%,#a9660e)!important;color:#49300a!important;border:2px solid rgba(255,247,187,.8)!important;box-shadow:0 14px 32px rgba(0,0,0,.28),0 0 25px rgba(255,205,72,.20)!important}
+#screen-setup.onboarding-v2 .leaf-spark{background:linear-gradient(135deg,#21d99c,#0b704e)!important;box-shadow:0 12px 24px rgba(31,227,166,.18)!important}
+#screen-setup.onboarding-v2 .salary-input-card{
+  margin-top:2px!important;padding:18px!important;border-radius:28px!important;
+  border:1px solid rgba(46,239,179,.42)!important;
+  background:linear-gradient(145deg,rgba(9,35,26,.88),rgba(4,22,16,.72))!important;
+  box-shadow:0 22px 48px rgba(0,0,0,.30),0 0 0 1px rgba(31,227,166,.06),inset 0 1px 0 rgba(255,255,255,.10)!important;
+}
+#screen-setup.onboarding-v2 .salary-input-card .field-label{color:#a8c8be!important;font-size:12px!important;font-weight:900!important;letter-spacing:.10em!important;text-transform:uppercase!important}
+#screen-setup.onboarding-v2 .premium-control{
+  min-height:78px!important;border-radius:23px!important;
+  background:linear-gradient(120deg,rgba(6,30,22,.98),rgba(8,39,29,.82))!important;
+  border:1.5px solid #27e7ad!important;
+  box-shadow:0 0 0 2px rgba(39,231,173,.08),0 16px 34px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.10)!important;
+}
+#screen-setup.onboarding-v2 .field-money input{
+  background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;color:#f5fffb!important;
+  -webkit-text-fill-color:#f5fffb!important;font-size:29px!important;font-weight:800!important;
+}
+#screen-setup.onboarding-v2 .field-money input::placeholder{color:#6e8980!important;opacity:1!important}
+#screen-setup.onboarding-v2 .field-money-symbol{color:#24efb1!important;font-size:28px!important}
+#screen-setup.onboarding-v2 .field-hint{color:#91aaa2!important}
+#screen-setup.onboarding-v2 .wizard-next{
+  height:62px!important;border-radius:32px!important;
+  background:linear-gradient(105deg,#0edb99,#47f4bd 55%,#11c989)!important;
+  color:#022219!important;border:1px solid rgba(255,255,255,.28)!important;
+  box-shadow:0 18px 40px rgba(16,229,166,.28),inset 0 2px 0 rgba(255,255,255,.48)!important;
+}
+#screen-setup.onboarding-v2 .setup-privacy{color:#718d83!important}
+
+/* All subsequent pages get the same heavier glass treatment */
+#screen-setup.onboarding-v2 .wizard-selected-card,
+#screen-setup.onboarding-v2 .wizard-calendar-card,
+#screen-setup.onboarding-v2 .wizard-summary-card{
+  border:1px solid rgba(44,232,174,.34)!important;
+  background:linear-gradient(145deg,rgba(8,34,25,.90),rgba(5,23,17,.78))!important;
+  box-shadow:0 20px 42px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+#screen-setup.onboarding-v2 .wizard-calendar-card .calendar-day{border-radius:15px!important}
+#screen-setup.onboarding-v2 .wizard-calendar-card .calendar-day.selected{background:linear-gradient(145deg,#31f1b2,#0ba978)!important;color:#032219!important;box-shadow:0 12px 30px rgba(31,235,169,.36)!important}
+#screen-setup.onboarding-v2 .wizard-currency-options .currency-option{
+  border:1px solid rgba(43,222,171,.24)!important;
+  background:linear-gradient(145deg,rgba(9,36,27,.92),rgba(5,24,18,.78))!important;
+  box-shadow:0 12px 25px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+#screen-setup.onboarding-v2 .wizard-currency-options .currency-option.active{border-color:#2debb1!important;background:linear-gradient(145deg,rgba(18,78,57,.90),rgba(7,42,30,.84))!important}
+#screen-setup.onboarding-v2 .wizard-back{color:#9ebbb1!important}
+
+/* Light mode is intentionally a separate visual language */
+[data-theme="light"] #screen-setup.onboarding-v2{
+  background:#f2fbf7!important;color:#12332a!important;
+}
+[data-theme="light"] #screen-setup.onboarding-v2:before{
+  background:
+    radial-gradient(60% 40% at 90% 8%,rgba(91,225,177,.30),transparent 68%),
+    radial-gradient(55% 42% at 4% 92%,rgba(144,235,199,.32),transparent 70%),
+    linear-gradient(145deg,#fbfffd,#eefaf5 52%,#e5f7ef)!important;
+}
+[data-theme="light"] #screen-setup.onboarding-v2 .setup-brand strong{color:#12352b!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .setup-brand span{color:#5b766d!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .setup-step,
+[data-theme="light"] #screen-setup.onboarding-v2 .setup-theme-btn{background:rgba(255,255,255,.70)!important;color:#187a5b!important;border-color:#aee3cf!important;box-shadow:0 10px 26px rgba(26,117,87,.08)!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .setup-title{color:#12352b!important;text-shadow:none!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .setup-title em{color:#079b6d!important;text-shadow:none!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .setup-sub{color:#58736a!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .nature-illustration:before{background:radial-gradient(circle,rgba(49,205,148,.22),rgba(151,239,205,.13) 42%,transparent 72%)!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .wallet-shape{background:linear-gradient(145deg,#38d9a4,#0aa875 55%,#08734f)!important;box-shadow:0 24px 52px rgba(19,133,95,.20),0 0 38px rgba(37,208,153,.16),inset 0 2px 0 rgba(255,255,255,.48)!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .salary-input-card,
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-selected-card,
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-calendar-card,
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-summary-card{
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(244,252,248,.92))!important;
+  border-color:#bfe9d8!important;
+  box-shadow:0 22px 45px rgba(29,112,82,.10),inset 0 1px 0 #fff!important;
+}
+[data-theme="light"] #screen-setup.onboarding-v2 .salary-input-card .field-label{color:#41645a!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .premium-control{background:linear-gradient(120deg,#ffffff,#f2fbf7)!important;border-color:#26bd8c!important;box-shadow:0 0 0 2px rgba(38,189,140,.07),0 12px 28px rgba(29,112,82,.08),inset 0 1px 0 #fff!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .field-money input{color:#173c31!important;-webkit-text-fill-color:#173c31!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .field-money input::placeholder{color:#7c9b91!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .field-hint{color:#648177!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-currency-options .currency-option{background:linear-gradient(145deg,#fff,#f4fbf8)!important;border-color:#cce9dd!important;box-shadow:0 10px 24px rgba(29,112,82,.07)!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-currency-options .currency-option.active{background:linear-gradient(145deg,#effcf6,#e2f8ef)!important;border-color:#28b98a!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-calendar-card .calendar-day{color:#234e40!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-calendar-card .calendar-day.selected{background:linear-gradient(145deg,#19bc88,#078f66)!important;color:#fff!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-back{color:#477167!important}
+[data-theme="light"] #screen-setup.onboarding-v2 .setup-privacy{color:#6b887e!important}
+
+@media(max-width:480px){
+  #screen-setup.onboarding-v2{padding:12px 15px 28px!important}
+  #screen-setup.onboarding-v2 .setup-title{font-size:36px!important}
+  #screen-setup.onboarding-v2 .nature-illustration{height:165px!important}
+  #screen-setup.onboarding-v2 .wallet-shape{width:166px!important;height:92px!important}
+  #screen-setup.onboarding-v2 .coin{width:46px!important;height:46px!important}
+  #screen-setup.onboarding-v2 .salary-input-card{padding:15px!important}
+  #screen-setup.onboarding-v2 .premium-control{min-height:72px!important}
+  #screen-setup.onboarding-v2 .field-money input{font-size:26px!important}
+}
+
+/* ========================================================================
+   SALARYFLOW V6 — MOBILE UI MATCH / REFERENCE-FAITHFUL ONBOARDING
+   Keeps app logic unchanged; visual/layout correction only.
+   ======================================================================== */
+#screen-setup.onboarding-v2{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  padding:10px 14px 22px!important;
+  scroll-behavior:smooth;
+}
+#screen-setup.onboarding-v2 .setup-wrap{max-width:420px!important;width:100%;}
+#screen-setup.onboarding-v2 .onboarding-header{
+  position:sticky!important;top:0!important;z-index:50!important;
+  margin:0 -2px 8px!important;padding:5px 2px 8px!important;
+  background:linear-gradient(180deg,rgba(3,17,12,.97) 0%,rgba(3,17,12,.88) 72%,transparent 100%)!important;
+  backdrop-filter:blur(12px)!important;
+}
+#screen-setup.onboarding-v2 .setup-brand-main{gap:9px!important}
+#screen-setup.onboarding-v2 .setup-badge{width:42px!important;height:42px!important;border-radius:13px!important;margin:0!important}
+#screen-setup.onboarding-v2 .setup-badge svg{width:23px!important;height:23px!important}
+#screen-setup.onboarding-v2 .setup-brand strong{font-size:16px!important;display:block;line-height:1.05}
+#screen-setup.onboarding-v2 .setup-brand span{font-size:8px!important;letter-spacing:.08em!important;margin-top:3px!important;display:block}
+#screen-setup.onboarding-v2 .setup-step{padding:6px 10px!important;font-size:10px!important}
+#screen-setup.onboarding-v2 .setup-theme-btn{width:40px!important;height:40px!important}
+#screen-setup.onboarding-v2 .wizard-progress{height:4px!important;margin:0 0 15px!important}
+#screen-setup.onboarding-v2 .wizard-pages{min-height:0!important}
+#screen-setup.onboarding-v2 .wizard-page{min-height:0!important;padding-bottom:4px!important}
+#screen-setup.onboarding-v2 .wizard-page .setup-kicker{font-size:10px!important;letter-spacing:.16em!important;margin-top:2px!important}
+#screen-setup.onboarding-v2 .wizard-page .setup-title{
+  font-size:27px!important;line-height:1.05!important;letter-spacing:-.035em!important;
+  margin:8px 0 7px!important;max-width:370px!important;
+}
+#screen-setup.onboarding-v2 .wizard-page .setup-sub{
+  font-size:12.5px!important;line-height:1.45!important;margin:0!important;max-width:365px!important;
+}
+#screen-setup.onboarding-v2 .wizard-page:after{width:190px!important;height:190px!important;top:-45px!important;right:-50px!important}
+
+/* Step 1: compact composition like the reference phone */
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .nature-illustration{
+  height:125px!important;margin:1px 0 3px!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wallet-shape{
+  width:148px!important;height:82px!important;border-radius:24px 24px 29px 29px!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .coin{width:42px!important;height:42px!important;font-size:17px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .coin-one{transform:translate(49px,-44px) rotate(10deg)!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .coin-two{transform:translate(-52px,-27px) scale(.78) rotate(-12deg)!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .leaf-spark{width:54px!important;height:24px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-input-card{
+  margin-top:2px!important;padding:12px!important;border-radius:20px!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .salary-input-card .field-label{font-size:10px!important;margin-bottom:7px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .premium-control{min-height:57px!important;border-radius:17px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money-symbol{font-size:23px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-money input{font-size:24px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="1"] .field-hint{font-size:10px!important}
+
+/* Steps 2 & 3: reference has compact title, selected date, calendar, then actions */
+#screen-setup.onboarding-v2 .wizard-page[data-step="2"] .setup-title,
+#screen-setup.onboarding-v2 .wizard-page[data-step="3"] .setup-title{font-size:25px!important;max-width:350px!important}
+#screen-setup.onboarding-v2 .wizard-selected-card{
+  margin:13px 0 9px!important;padding:10px 12px!important;min-height:52px!important;border-radius:18px!important;
+}
+#screen-setup.onboarding-v2 .wizard-selected-card .picker-icon{width:34px!important;height:34px!important;border-radius:11px!important}
+#screen-setup.onboarding-v2 .wizard-selected-card small{font-size:8px!important}
+#screen-setup.onboarding-v2 .wizard-selected-card strong{font-size:14px!important}
+#screen-setup.onboarding-v2 .wizard-calendar-card{
+  padding:11px!important;border-radius:20px!important;
+}
+#screen-setup.onboarding-v2 .wizard-calendar-card .calendar-nav{margin-bottom:8px!important}
+#screen-setup.onboarding-v2 .wizard-calendar-card .calendar-nav button{width:34px!important;height:34px!important;border-radius:11px!important}
+#screen-setup.onboarding-v2 .wizard-calendar-card .calendar-nav strong{font-size:14px!important}
+#screen-setup.onboarding-v2 .wizard-calendar-card .calendar-week,
+#screen-setup.onboarding-v2 .wizard-calendar-card .calendar-grid{gap:2px!important}
+#screen-setup.onboarding-v2 .wizard-calendar-card .calendar-week span{font-size:8px!important}
+#screen-setup.onboarding-v2 .wizard-calendar-card .calendar-day{min-height:34px!important;font-size:11px!important;border-radius:10px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="2"] .wizard-calendar-card:after,
+#screen-setup.onboarding-v2 .wizard-page[data-step="3"] .wizard-calendar-card:after{margin:8px 0 0!important;padding:7px 9px!important;font-size:8px!important}
+
+/* Bottom action row exactly where the reference puts Back + Next */
+#screen-setup.onboarding-v2 .wizard-actions{
+  display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;margin-top:10px!important;
+}
+#screen-setup.onboarding-v2 .wizard-actions .wizard-back{
+  min-height:46px!important;padding:0 14px!important;border:1px solid rgba(43,224,173,.48)!important;
+  border-radius:24px!important;background:rgba(10,48,37,.55)!important;color:#b9d8cd!important;
+  justify-content:center!important;font-size:12px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+#screen-setup.onboarding-v2 .wizard-actions .wizard-next{margin:0!important;min-height:46px!important;height:46px!important;font-size:13px!important}
+
+/* Step 4: keep all country rows and actions visible */
+#screen-setup.onboarding-v2 .wizard-page[data-step="4"] .setup-title{font-size:25px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="4"] .wizard-currency-search{
+  height:44px!important;margin:11px 0 8px!important;border-radius:15px!important;font-size:12px!important;padding:0 12px!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="4"] .wizard-currency-options{
+  max-height:none!important;overflow:visible!important;margin:0!important;padding:0!important;display:flex!important;flex-direction:column!important;gap:6px!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="4"] .currency-option{
+  min-height:48px!important;border-radius:15px!important;padding:7px 9px!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="4"] .currency-flag{width:36px!important;height:36px!important;flex-basis:36px!important;font-size:20px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="4"] .currency-option strong{font-size:12px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="4"] .currency-option small{font-size:8px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="4"] .currency-radio{width:17px!important;height:17px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="4"] .wizard-actions{margin-top:9px!important}
+
+/* Step 5: strong summary card, matching the reference instead of loose rows */
+#screen-setup.onboarding-v2 .wizard-page[data-step="5"] .done-badge{width:72px!important;height:72px!important;border-radius:23px!important;margin:10px auto 13px!important;font-size:34px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="5"] .setup-title{font-size:29px!important;margin-top:7px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="5"] .setup-sub{font-size:12.5px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="5"] .wizard-summary-card{
+  margin:17px 0 11px!important;padding:5px!important;border-radius:18px!important;
+  border:1px solid rgba(43,224,173,.36)!important;background:linear-gradient(145deg,rgba(8,40,30,.90),rgba(4,23,17,.80))!important;
+}
+#screen-setup.onboarding-v2 .wizard-page[data-step="5"] .summary-row{min-height:52px!important;padding:8px 8px!important;gap:9px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="5"] .summary-icon{width:34px!important;height:34px!important;flex-basis:34px!important;border-radius:11px!important;font-size:14px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="5"] .summary-row small{font-size:7px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="5"] .summary-row strong{font-size:12px!important}
+#screen-setup.onboarding-v2 .wizard-page[data-step="5"] .wizard-next{height:48px!important;margin-top:2px!important;font-size:14px!important}
+
+/* Light reference: same geometry, clearly different white/mint visual language */
+[data-theme="light"] #screen-setup.onboarding-v2 .onboarding-header{
+  background:linear-gradient(180deg,rgba(247,255,251,.98),rgba(247,255,251,.90) 72%,transparent 100%)!important;
+}
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-actions .wizard-back{
+  background:rgba(238,250,245,.9)!important;color:#356c5b!important;border-color:#b9e1d2!important;
+}
+[data-theme="light"] #screen-setup.onboarding-v2 .wizard-page[data-step="5"] .wizard-summary-card{
+  background:linear-gradient(145deg,#ffffff,#effaf5)!important;border-color:#bfe4d5!important;
+}
+
+@media(max-width:360px){
+  #screen-setup.onboarding-v2 .wizard-page .setup-title{font-size:24px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .nature-illustration{height:112px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="1"] .wallet-shape{width:136px!important;height:75px!important}
+  #screen-setup.onboarding-v2 .wizard-calendar-card .calendar-day{min-height:31px!important;font-size:10px!important}
+  #screen-setup.onboarding-v2 .wizard-page[data-step="4"] .currency-option{min-height:45px!important}
+}
